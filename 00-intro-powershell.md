@@ -93,7 +93,7 @@ Get-Process | Where-Object {$_.CPU -gt 10}  # Finner prosesser som bruker mer en
 
 ### 4. Get-Service
 
-Denne cmdlet-en henter informasjon om tjenester:
+Denne cmdlet-en henter informasjon om tjenester (KUN WINDOWS):
 
 ```powershell
 Get-Service                 # Lister alle tjenester
