@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avansert PowerShell Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #0066cc;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-left: 3px solid #0066cc;
+            color: #666;
+            page-break-inside: avoid;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            overflow: auto;
+            padding: 1em 1.5em;
+            display: block;
+            word-wrap: break-word;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px 10px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Avansert PowerShell Guide</h1>
+
+    <h2>Effektive Teknikker for å Finne Ønskede Kommandoer</h2>
+
+    <p>En av de største utfordringene for PowerShell-brukere er å finne riktig kommando for en gitt oppgave. PowerShell tilbyr flere kraftige verktøy for å hjelpe deg med dette. La oss utforske noen avanserte teknikker.</p>
+
+    <h3>Bruk av Get-Command med Wildcards</h3>
+
+    <p>Get-Command er et kraftig verktøy for å oppdage cmdlets. Ved å bruke wildcards kan du søke etter kommandoer basert på delvise navn eller mønstre.</p>
+
+    <pre><code>Get-Command -Noun *process*</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Dette vil returnere alle kommandoer som har "process" i substantivdelen av navnet.</p>
+
+    <pre><code>Get-Command -Verb Get -Noun *net*</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Dette vil finne alle "Get" kommandoer relatert til nettverk.</p>
+
+    <h3>Bruk av Get-Help for Detaljert Informasjon</h3>
+
+    <p>Når du har funnet en interessant kommando, kan Get-Help gi deg detaljert informasjon om hvordan du bruker den.</p>
+
+    <pre><code>Get-Help Get-Process -Detailed</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>For å se eksempler på hvordan kommandoen brukes:</p>
+
+    <pre><code>Get-Help Get-Process -Examples</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h3>Søk i PowerShell's About-emner</h3>
+
+    <p>PowerShell har mange "About" emner som gir konseptuelle informasjon. Du kan søke i disse:</p>
+
+    <pre><code>Get-Help about_*</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>For å finne informasjon om et spesifikt emne, for eksempel arrays:</p>
+
+    <pre><code>Get-Help about_Arrays</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h2>Utforsking av Objekter med Get-Member</h2>
+
+    <p>Get-Member er en kraftig cmdlet som lar deg utforske egenskapene og metodene til objekter i PowerShell. Dette er spesielt nyttig når du jobber med komplekse objekter og ønsker å forstå deres struktur.</p>
+
+    <h3>Grunnleggende Bruk av Get-Member</h3>
+
+    <p>For å se alle egenskaper og metoder til et objekt:</p>
+
+    <pre><code>Get-Process | Get-Member</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>For å fokusere bare på egenskaper:</p>
+
+    <pre><code>Get-Process | Get-Member -MemberType Property</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>For å se bare metoder:</p>
+
+    <pre><code>Get-Process | Get-Member -MemberType Method</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h3>Filtrering av Get-Member Resultater</h3>
+
+    <p>Du kan bruke wildcards for å finne spesifikke egenskaper eller metoder:</p>
+
+    <pre><code>Get-Process | Get-Member -Name *memory*</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h2>Bruk av Select-Object og ExpandProperty</h2>
+
+    <p>Select-Object er en kraftig cmdlet for å velge spesifikke egenskaper fra objekter. ExpandProperty er en nyttig parameter når du jobber med nestede objekter.</p>
+
+    <h3>Grunnleggende Bruk av Select-Object</h3>
+
+    <p>For å velge spesifikke egenskaper fra et objekt:</p>
+
+    <pre><code>Get-Process | Select-Object Name, CPU, WorkingSet</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h3>Bruk av ExpandProperty</h3>
+
+    <p>ExpandProperty er nyttig når en egenskap inneholder et annet objekt eller en array. For eksempel, la oss si at vi har en kompleks egenskap kalt 'Modules' i en prosess:</p>
+
+    <pre><code>Get-Process | Select-Object Name, @{Name='ModuleName'; Expression={$_.Modules | Select-Object -ExpandProperty ModuleName}}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Dette vil liste opp prosessnavnene sammen med navnene på alle modulene de bruker.</p>
+
+    <h2>Avansert Filtrering med Where-Object</h2>
+
+    <p>Where-Object lar deg filtrere objekter basert på deres egenskaper. Her er noen avanserte eksempler:</p>
+
+    <pre><code>Get-Service | Where-Object {$_.Status -eq 'Running' -and $_.StartType -eq 'Automatic'}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Dette finner alle tjenester som kjører og er satt til å starte automatisk.</p>
+
+    <pre><code>Get-Process | Where-Object {$_.WorkingSet -gt 100MB -and $_.Company -like '*Microsoft*'}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Dette finner alle Microsoft-prosesser som bruker mer enn 100MB minne.</p>
+
+    <h2>Arbeide med PowerShell Pipelining</h2>
+
+    <p>Pipelining er en av de mest kraftfulle funksjonene i PowerShell. Det lar deg sende resultatet av en kommando som input til en annen. Her er noen avanserte eksempler:</p>
+
+    <pre><code>Get-Process | Sort-Object CPU -Descending | Select-Object -First 5 | Format-Table Name, CPU, WorkingSet</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Dette kommandoen finner de 5 prosessene som bruker mest CPU og viser dem i en pen tabell.</p>
+
+    <pre><code>Get-ChildItem -Recurse | Where-Object {$_.LastWriteTime -gt (Get-Date).AddDays(-7)} | Group-Object Extension | Sort-Object Count -Descending</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Denne kommandoen finner alle filer endret i løpet av siste uke, grupperer dem etter filtype, og sorterer gruppene etter antall filer.</p>
+
+    <h2>Konklusjon</h2>
+
+    <p>Disse avanserte teknikkene vil hjelpe deg med å bli mer effektiv i PowerShell. Ved å mestre bruken av Get-Command, Get-Member, Select-Object med ExpandProperty, og avansert filtrering og pipelining, vil du være i stand til å håndtere komplekse oppgaver med letthet. Husk å alltid utforske og eksperimentere - PowerShell har mange lag av funksjonalitet å oppdage!</p>
+
+    <script>
+        function copyToClipboard(button) {
+            const pre = button.parentElement;
+            const code = pre.querySelector('code');
+            const textArea = document.createElement('textarea');
+            textArea.value = code.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            button.textContent = 'Kopiert!';
+            setTimeout(() => {
+                button.textContent = 'Kopier';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
