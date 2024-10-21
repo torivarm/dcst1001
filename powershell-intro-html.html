@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduksjon til PowerShell og Cmdlets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #0066cc;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-left: 3px solid #0066cc;
+            color: #666;
+            page-break-inside: avoid;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            overflow: auto;
+            padding: 1em 1.5em;
+            display: block;
+            word-wrap: break-word;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px 10px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Introduksjon til PowerShell og Cmdlets</h1>
+
+    <h2>Hva er PowerShell?</h2>
+    <p>PowerShell er et kraftig skript- og automatiseringsverktøy utviklet av Microsoft. Det ble først introdusert i 2006 og har siden blitt en integrert del av Windows-operativsystemet. PowerShell er bygget på .NET Framework og tilbyr en kommandolinjegrensesnitt (CLI) og et skriptspråk.</p>
+
+    <h2>Grunnleggende PowerShell-konsepter</h2>
+
+    <h3>1. Cmdlets</h3>
+    <p>Cmdlets (uttales "command-lets") er de grunnleggende byggeklossene i PowerShell. De følger en "verb-substantiv" navnekonvensjon, for eksempel:</p>
+    <pre><code>Get-Process</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>Stop-Service</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>New-Item</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h3>2. Pipelining</h3>
+    <p>PowerShell støtter pipelining, som lar deg sende utdata fra én kommando som inndata til en annen. Dette gjøres ved å bruke pipe-symbolet |. For eksempel:</p>
+    <pre><code>Get-Process | Sort-Object CPU -Descending</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h3>3. Variabler</h3>
+    <p>Variabler i PowerShell starter med $-tegnet. For eksempel:</p>
+    <pre><code>$navn = "Ola Nordmann"</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>$alder = 30</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h2>Grunnleggende bruk av Cmdlets</h2>
+
+    <h3>1. Get-Command</h3>
+    <pre><code>Get-Command</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>Get-Command -Verb Get</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>Get-Command -Noun Process</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h3>2. Get-Help</h3>
+    <pre><code>Get-Help Get-Process</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>Get-Help Get-Process -Full</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>Get-Help Get-Process -Examples</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h3>3. Get-Process</h3>
+    <pre><code>Get-Process</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>Get-Process -Name chrome</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+    <pre><code>Get-Process | Where-Object {$_.CPU -gt 10}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <h2>Avanserte Konsepter</h2>
+
+    <h3>Funksjoner, Løkker, og Betingelser i PowerShell</h3>
+
+    <p>I PowerShell, som i mange andre programmeringsspråk, er funksjoner, løkker og betingelser grunnleggende byggeklosser for å skape mer kompleks og fleksibel kode. Disse konseptene lar deg organisere koden din, gjenta operasjoner og ta beslutninger basert på ulike forhold.</p>
+
+    <p>Funksjoner i PowerShell er navngitte blokker av kode som utfører spesifikke oppgaver. De kan ta imot parametere (inndata) og returnere resultater (utdata). Funksjoner er utrolig nyttige for å organisere og gjenbruke kode. Ved å pakke en serie med kommandoer inn i en funksjon, kan du enkelt utføre den samme oppgaven gjentatte ganger uten å måtte skrive de samme kommandoene om og om igjen. Dette ikke bare sparer tid, men reduserer også sjansen for feil og gjør koden din mer lesbar og vedlikeholdbar.</p>
+
+    <p>I PowerShell definerer du en funksjon ved å bruke nøkkelordet "function", etterfulgt av funksjonsnavnet og en blokk med kode omsluttet av krøllparenteser. Du kan også spesifisere parametere som funksjonen skal ta imot, noe som gjør den mer fleksibel og gjenbrukbar. Her er et eksempel på en enkel funksjon:</p>
+
+    <pre><code>function Hils-Person {
+    param($navn)
+    Write-Host "Hei, $navn!"
+}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <pre><code>Hils-Person -navn "Kari"</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Løkker i PowerShell er strukturer som lar deg gjenta en serie med kommandoer flere ganger. Dette er spesielt nyttig når du trenger å utføre den samme oppgaven på en samling av elementer, eller når du trenger å gjenta en prosess inntil en bestemt betingelse er oppfylt. PowerShell tilbyr flere typer løkker, inkludert ForEach-Object, For, og While løkker.</p>
+
+    <p>ForEach-Object løkken er spesielt nyttig i PowerShell fordi den fungerer godt med pipelining. Den lar deg utføre en handling på hvert element i en samling. For-løkken er mer tradisjonell og lar deg spesifisere et bestemt antall iterasjoner. While-løkken fortsetter å kjøre så lenge en spesifisert betingelse er sann. Her er eksempler på hver type løkke:</p>
+
+    <pre><code>1..5 | ForEach-Object { Write-Host $_ }</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <pre><code>for ($i = 1; $i -le 5; $i++) {
+    Write-Host $i
+}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <pre><code>$i = 1
+while ($i -le 5) {
+    Write-Host $i
+    $i++
+}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Betingelser i PowerShell lar deg ta beslutninger i koden din basert på om visse kriterier er oppfylt eller ikke. Den mest grunnleggende formen for betingelse er if-setningen, som utfører en blokk med kode hvis en spesifisert betingelse er sann. Du kan også bruke else-if og else for å håndtere alternative scenarier. Betingelser er kraftige verktøy som lar skriptene dine reagere dynamisk på ulike situasjoner og data.</p>
+
+    <p>I PowerShell bruker du operatorer som -eq (lik), -ne (ikke lik), -gt (større enn), -lt (mindre enn) for å sammenligne verdier i betingelser. Her er et eksempel på en if-setning:</p>
+
+    <pre><code>$alder = 20
+if ($alder -ge 18) {
+    Write-Host "Du er myndig"
+} else {
+    Write-Host "Du er ikke myndig ennå"
+}</code><button class="copy-btn" onclick="copyToClipboard(this)">Kopier</button></pre>
+
+    <p>Ved å kombinere funksjoner, løkker og betingelser kan du skape kraftige og fleksible PowerShell-skript som kan håndtere komplekse oppgaver og scenarier. Disse verktøyene lar deg automatisere repetitive oppgaver, behandle store mengder data effektivt, og skape logikk som kan tilpasse seg ulike situasjoner. Når du mestrer disse konseptene, vil du være i stand til å skrive mer sofistikerte og effektive PowerShell-skript som kan løse et bredt spekter av problemer og automatisere mange aspekter av systemadministrasjon og databehandling.</p>
+
+    <script>
+        function copyToClipboard(button) {
+            const pre = button.parentElement;
+            const code = pre.querySelector('code');
+            const textArea = document.createElement('textarea');
+            textArea.value = code.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            button.textContent = 'Kopiert!';
+            setTimeout(() => {
+                button.textContent = 'Kopier';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
