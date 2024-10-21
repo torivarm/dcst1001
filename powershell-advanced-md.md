@@ -30,8 +30,8 @@ Get-Command -ParameterName ComputerName
 Du kan kombinere Get-Command med Where-Object for mer presis filtrering:
 
 ```powershell
-# Finn alle kommandoer som har både "Get" og "AD" i navnet
-Get-Command | Where-Object { $_.Name -like "*Get*" -and $_.Name -like "*AD*" }
+# Finn alle kommandoer som har både "Get" og "IP" i navnet
+Get-Command | Where-Object { $_.Name -like "*Get*" -and $_.Name -like "*IP*" }
 ```
 
 ### Utforske Kommandoparametre
