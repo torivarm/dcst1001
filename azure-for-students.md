@@ -74,7 +74,7 @@ I motsetning til den vanlige Azure Free Trial, krever ikke Azure for Students kr
 - Gå til "Cost Management + Billing" i Azure Portal for å se forbruket ditt
 - Sett opp varsler for å få beskjed når du nærmer deg kredittgrensen
 
-### Fornyelse
+### Fornyelse (frivillig)
 - Etter 12 måneder eller når kredittene er brukt opp, må du fornye abonnementet
 - Du kan fornye årlig så lenge du fortsatt er student
 - Ved fornyelse får du nye $100 kreditter
@@ -104,7 +104,6 @@ I motsetning til den vanlige Azure Free Trial, krever ikke Azure for Students kr
 ### Ressurser blir ikke opprettet
 - Sjekk at du har nok kreditter igjen
 - Verifiser at du bruker riktig region (ikke alle regioner støttes)
-- Sjekk om tjenesten du prøver å bruke er tilgjengelig under studentabonnementet
 
 ## Nyttige lenker
 
@@ -123,8 +122,5 @@ I motsetning til den vanlige Azure Free Trial, krever ikke Azure for Students kr
 5. **Lær før du bruker**: Utforsk Microsoft Learn for å lære best practices
 6. **Bruk utviklingsmiljøer**: Velg mindre VM-størrelser for utvikling og testing
 
-## Konklusjon
-
-Azure for Students er en utmerket mulighet til å lære cloud computing uten økonomisk risiko. Med $100 i kreditter og 12 måneders tilgang har du god tid til å utforske og eksperimentere med Azures mange tjenester.
 
 Lykke til med Azure-reisen din! 🎓☁️
