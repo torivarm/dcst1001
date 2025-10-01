@@ -122,5 +122,3 @@ I motsetning til den vanlige Azure Free Trial, krever ikke Azure for Students kr
 5. **Lær før du bruker**: Utforsk Microsoft Learn for å lære best practices
 6. **Bruk utviklingsmiljøer**: Velg mindre VM-størrelser for utvikling og testing
 
-
-Lykke til med Azure-reisen din! 🎓☁️
