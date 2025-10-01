@@ -21,29 +21,26 @@ Du vil finne en knapp på siden som lar deg starte registreringsprosessen.
 - Følg instruksjonene på skjermen for å fullføre innloggingen
 
 ### Steg 4: Verifiser studentstatusen din
-Microsoft vil verifisere at du er student.
+Microsoft vil verifisere at du er student. Fyll inn informasjonen som siden for akademisk bekreftelse etterspør:
+- Fornavn
+- Etternavn
+- Land
+- Skolens navn (se bilde under)
+- Fødselsdato
 
 - **Automatisk verifisering**: Hvis du bruker en studentepostadresse, kan verifikasjonen skje automatisk. Velg NTNU og Trondheim som studiested.
   ![alt text](img/NTNU-Trh.png)
 -  Verifiser at det er korrekt adresse som står nederst på siden for akademisk bekreftelse.
 ![alt text](img/akademiskbekreftelse.png)
+- Velg deretter kontroller akademisk status nederst på siden.
 
 - **Manuell verifisering**: Du kan bli bedt om å laste opp dokumentasjon som:
   - Studentbevis
   - Innmeldingsbekreftelse
   - Annen offisiell dokumentasjon fra skolen din
 
-### Steg 5: Fullfør registreringsskjemaet
-Fyll ut nødvendig informasjon:
-
-- Navn
-- Land/region
-- Fødselsdato
-- Telefonnummer (for verifisering)
-- Adresse
-
 ### Steg 6: Aksepter vilkårene
-Les gjennom og aksepter Microsofts tjenestevilkår og personvernserklæring.
+Aksepter Microsofts tjenestevilkår og personvernserklæring.
 
 ### Steg 7: Bekreft registreringen
 - Du kan bli bedt om å verifisere telefonnummeret ditt via SMS eller telefonsamtale
@@ -66,17 +63,11 @@ Her kan du se dine $100 kreditter og begynne å bruke Azure-tjenester.
 ### Gratis tjenester
 Mange Azure-tjenester er inkludert gratis (innenfor visse grenser):
 
-- Virtual Machines (750 timer månedlig)
-- Azure SQL Database (250 GB)
-- Blob Storage (5 GB)
-- Azure Functions (1 million forespørsler månedlig)
-- Azure App Service (10 webapplikasjoner)
-- Og mange flere...
-
 ### Ingen kredittkort nødvendig
 I motsetning til den vanlige Azure Free Trial, krever ikke Azure for Students kredittkortinformasjon.
 
 ## Viktige ting å merke seg
+**Slett alltid** ressurser som en ferdig med. Ubrukte ressurser som virtuelle maskiner trekker typisk alt fra 700,- til 2500,- i måneden avhengig av CPU, minne etc.
 
 ### Kredittovervåking
 - Sjekk regelmessig hvor mye av kredittene dine som er brukt
