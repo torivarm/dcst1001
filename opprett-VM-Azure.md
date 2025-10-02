@@ -23,9 +23,9 @@ En ressursgruppe samler alle ressursene dine.
 3. Fyll inn:  
    - **Subscription**: `Azure for students` (om ikke Azure for students Subscription vises, forsøk å oppdatere MAC: command + r, Windows: CTRL + R)
    - **Resource group name**: Skriv inn et passende navn `rg-myfirstIaaS-test` 
-   - **Region**: `UK South` (eller nærmeste datasenter)  
+   - **Region**: `Sweden Central` (eller nærmeste datasenter)  
 4. Trykk **Review + Create**, og deretter **Create**.
-![alt text](img/RG-Create.png)
+![alt text](img/rgSweden.png)
 
 ---
 
@@ -48,7 +48,7 @@ Et VNet er et privat nettverk i Azure hvor du plasserer ressursene dine.
 ![alt text](img/saveSubnet.png)
 1. Trykk **Review + Create**, og deretter **Create**.
 ![alt text](img/ReviewCreateVNET.png)
-
+![alt text](img/vnetvalidation.png)
 ---
 
 ## 4. Opprett en Network Security Group (NSG)
