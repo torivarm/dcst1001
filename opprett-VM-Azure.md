@@ -78,14 +78,17 @@ Når NSG-en er opprettet:
     - ![alt text](img/NSGRDP.png) 
   - **Linux VM**: SSH (TCP/22) 
     - ![alt text](img/NSGSSH.png)
-
+- Når en er ferdig vil en se følgende regler:
+  - ![alt text](img/NSGInboundWithSSHRDP.png)
 ---
 
 ## 5. Knytt NSG til subnettet
-1. Gå til **vnet-demo** → **Subnets**.  
-2. Velg `subnet-demo`.  
-3. Knytt til **nsg-demo**.  
-4. Lagre endringene.
+1. Gå til opprettet **VNET** og deretter → **Subnets**.
+![alt text](img/SNET-findSubnet.png)
+1. Velg `snet-myfirstSubnet-test` (eller det navnet du har valgt på ditt subnet)
+2. Knytt til **nsg-myfirstNSG-test**.  
+![alt text](img/nsg-attach-subnet.png)
+3. Lagre endringene.
 
 Nå har du et nettverk klart med sikkerhetsregler.
 
@@ -94,8 +97,10 @@ Nå har du et nettverk klart med sikkerhetsregler.
 ## 6. Opprett en virtuell maskin
 Nå kan du lage selve VM-en og koble den til nettverket du har satt opp.
 
-1. Klikk på **Create a resource** → Søk etter **Virtual Machine**.  
-2. Velg **Create**.  
+1. Søk etter **Virtual Machine**.
+   1. ![alt text](img/SearchVM.png)
+2. Velg **Create** → **Virtual Machine**
+   1. ![alt text](img/createNSG.png)  
 3. Under **Basics**:  
    - **Resource group**: `rg-demo`  
    - **Virtual machine name**: `vm-demo01`  
