@@ -100,11 +100,12 @@ Nå kan du lage selve VM-en og koble den til nettverket du har satt opp.
 1. Søk etter **Virtual Machine**.
    1. ![alt text](img/SearchVM.png)
 2. Velg **Create** → **Virtual Machine**
-   1. ![alt text](img/createNSG.png)  
-3. Under **Basics**:  
-   - **Resource group**: `rg-demo`  
-   - **Virtual machine name**: `vm-demo01`  
-   - **Region**: samme som ressursgruppen  
+   1. ![alt text](img/CreateVM.png)  
+3. Under **Basics**: MERK! Her er det mange valg.. Det er ikke meningen vi skal forstå alt sammen nå, det blir mer Azure i senere semester. 
+   - **Resource group**: `rg-myfirstIaaS-test`  
+   - **Virtual machine name**: `vm-myfirstVM-test`
+   - ![alt text](image.png)
+   - **Region**: samme som ressursgruppen
    - **Image**: velg operativsystem (f.eks. *Ubuntu 22.04 LTS* eller *Windows Server 2022*)  
    - **Size**: velg en liten maskin, f.eks. `Standard_B1s`  
    - **Authentication type**:  
