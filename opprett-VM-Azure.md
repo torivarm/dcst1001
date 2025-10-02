@@ -39,35 +39,41 @@ Et VNet er et privat nettverk i Azure hvor du plasserer ressursene dine.
 3. Fyll inn:  
    - **Resource group**: Om den ikke er automatisk valgt, velg Resource Group som nettopp ble opprettet
    - **Name**: `vnet-myfirstVNET-test`  
-   - **Region**: Samme som ressursgruppen  (I mitt eksempel: UK South)
+   - **Region**: Samme som ressursgruppen
 ![alt text](img/vnetSwedenBasics.png)
-1. Ikke velg noe under security, koster veldig mye!! - Gå til: **IP addresses**, konfigurer et **subnet**:
+4. Ikke velg noe under security, koster veldig mye!! - Gå til: **IP addresses**, konfigurer et **subnet**:
 ![alt text](img/editSubnet.png)
    - **Subnet name**: `snet-myfirstSubnet-test`  
    - **Subnet address range**: behold standardforslaget, f.eks. `10.0.0.0/24`.
 ![alt text](img/saveSubnet.png)
-1. Trykk **Review + Create**, og deretter **Create**.
+5. Trykk **Review + Create**, og deretter **Create**.
 ![alt text](img/ReviewCreateVNET.png)
-![alt text](img/vnetvalidation.png)
+-
+![alt text](img/validationPasedSewdenVNET.png)
+6. Etter en stund vil en se at ressursen er ferdig opprettet:
+![alt text](img/vnet-done.png)
 ---
 
 ## 4. Opprett en Network Security Group (NSG)
 En NSG fungerer som en brannmur. Den bestemmer hvilken trafikk som slipper inn og ut av subnettet.  
 
-1. Gå til **Create a resource** → Søk etter **Network Security Group**.  
-2. Velg **Create**.  
+1. Søk etter **Network Security Group**.
+![alt text](img/searchNSG.png)
+2. Velg **Create**.
+![alt text](img/createNSG.png)  
 3. Fyll inn:  
-   - **Resource group**: `rg-demo`  
-   - **Name**: `nsg-demo`  
-   - **Region**: samme som VNet  
+   - **Resource group**: `rg-myfirstIaaS-test` - Samme som opprettet tidligere
+   - **Name**: `nsg-myfirstNSG-test`  
+   - **Region**: samme som VNet
 4. Trykk **Review + Create**, og deretter **Create**.  
+![alt text](img/reviewAndCreateNSG.png)
 
 Når NSG-en er opprettet:
-- Gå inn på `nsg-demo`.  
+- Gå inn på `nsg-myfirstNSG-test`.
 - Velg **Inbound security rules**.  
 - Legg til en regel for å åpne riktig port:  
   - **Windows VM**: RDP (TCP/3389)  
-  - **Linux VM**: SSH (TCP/22)  
+  - **Linux VM**: SSH (TCP/22)
 
 ---
 
