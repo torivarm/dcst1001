@@ -1,0 +1,139 @@
+# Opprette en virtuell maskin i Azure med tilhørende nettverk
+
+I denne guiden lærer du å opprette en virtuell maskin (VM) i Azure.  
+I stedet for å la Azure opprette alt automatisk, bygger vi infrastrukturen steg for steg: først nettverket, deretter VM-en.  
+
+Dette gir deg bedre forståelse for hvordan Azure er strukturert, og hvordan ressursene henger sammen.
+
+---
+
+## 1. Logg inn i Azure-portalen
+1. Gå til [https://portal.azure.com](https://portal.azure.com).  
+2. Logg inn med din studentkonto
+![alt text](img/azureportal.png)
+
+---
+
+## 2. Opprett en ressursgruppe
+En ressursgruppe samler alle ressursene dine.  
+![alt text](img/resourcegroup.png)
+1. Klikk på **Resource groups**  
+2. Trykk **Create**.
+   1. ![alt text](img/createRG.png)
+3. Fyll inn:  
+   - **Subscription**: `Azure for students`
+   - **Resource group name**: Skriv inn et passende navn `rg-myfirstIaaS-test` 
+   - **Region**: `UK South` (eller nærmeste datasenter)  
+4. Trykk **Review + Create**, og deretter **Create**.
+![alt text](img/RG-Create.png)
+
+---
+
+## 3. Opprett et virtuelt nettverk (VNet)
+Et VNet er et privat nettverk i Azure hvor du plasserer ressursene dine.  
+
+1. Gå til **Create a resource** → Søk etter **Virtual Network**.  
+2. Velg **Create**.  
+3. Fyll inn:  
+   - **Resource group**: `rg-demo`  
+   - **Name**: `vnet-demo`  
+   - **Region**: Samme som ressursgruppen  
+4. Under **IP addresses**, opprett et **subnet**:  
+   - **Subnet name**: `subnet-demo`  
+   - **Subnet address range**: behold standardforslaget, f.eks. `10.0.0.0/24`.  
+5. Trykk **Review + Create**, og deretter **Create**.
+
+---
+
+## 4. Opprett en Network Security Group (NSG)
+En NSG fungerer som en brannmur. Den bestemmer hvilken trafikk som slipper inn og ut av subnettet.  
+
+1. Gå til **Create a resource** → Søk etter **Network Security Group**.  
+2. Velg **Create**.  
+3. Fyll inn:  
+   - **Resource group**: `rg-demo`  
+   - **Name**: `nsg-demo`  
+   - **Region**: samme som VNet  
+4. Trykk **Review + Create**, og deretter **Create**.  
+
+Når NSG-en er opprettet:
+- Gå inn på `nsg-demo`.  
+- Velg **Inbound security rules**.  
+- Legg til en regel for å åpne riktig port:  
+  - **Windows VM**: RDP (TCP/3389)  
+  - **Linux VM**: SSH (TCP/22)  
+
+---
+
+## 5. Knytt NSG til subnettet
+1. Gå til **vnet-demo** → **Subnets**.  
+2. Velg `subnet-demo`.  
+3. Knytt til **nsg-demo**.  
+4. Lagre endringene.
+
+Nå har du et nettverk klart med sikkerhetsregler.
+
+---
+
+## 6. Opprett en virtuell maskin
+Nå kan du lage selve VM-en og koble den til nettverket du har satt opp.
+
+1. Klikk på **Create a resource** → Søk etter **Virtual Machine**.  
+2. Velg **Create**.  
+3. Under **Basics**:  
+   - **Resource group**: `rg-demo`  
+   - **Virtual machine name**: `vm-demo01`  
+   - **Region**: samme som ressursgruppen  
+   - **Image**: velg operativsystem (f.eks. *Ubuntu 22.04 LTS* eller *Windows Server 2022*)  
+   - **Size**: velg en liten maskin, f.eks. `Standard_B1s`  
+   - **Authentication type**:  
+     - SSH-nøkkel for Linux  
+     - Brukernavn/passord for Windows  
+   - Husk å velge et brukernavn som ikke er `admin` eller `root`.  
+4. Trykk **Next: Networking**.  
+
+---
+
+## 7. Koble VM til nettverket
+1. Under **Virtual network**, velg `vnet-demo`.  
+2. Under **Subnet**, velg `subnet-demo`.  
+3. Under **NIC network security group**, velg **None** (fordi vi bruker NSG knyttet til subnettet).  
+4. Trykk **Review + Create**, og deretter **Create**.
+
+---
+
+## 8. Koble til den virtuelle maskinen
+Når opprettelsen er ferdig, kobler du deg til VM-en:
+
+- **Linux**:  
+  1. Klikk på **Connect** → **SSH**.  
+  2. Kopier kommandoen og lim den inn i terminalen.  
+  3. Eksempel:  
+     ```bash
+     ssh brukernavn@offentlig-ip
+     ```
+
+- **Windows**:  
+  1. Klikk på **Connect** → **RDP**.  
+  2. Last ned `.rdp`-filen og logg inn med brukernavn og passord.
+
+---
+
+## 9. Rydd opp (Viktig!)
+Når du er ferdig med øvelsen, slett ressursgruppen for å unngå kostnader:  
+
+1. Gå til **Resource groups**.  
+2. Velg `rg-demo`.  
+3. Klikk **Delete resource group**.  
+
+---
+
+## Oppsummering
+I denne øvelsen har du:
+- Opprettet en ressursgruppe.  
+- Bygget et virtuelt nettverk med subnet.  
+- Konfigurert en Network Security Group og koblet den til subnettet.  
+- Opprettet en VM og koblet den til det eksisterende nettverket.  
+- Lært hvordan du kobler deg til VM-en og hvordan du rydder opp ressursene etterpå.  
+
+---
