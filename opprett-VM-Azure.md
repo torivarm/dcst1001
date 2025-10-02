@@ -70,10 +70,14 @@ En NSG fungerer som en brannmur. Den bestemmer hvilken trafikk som slipper inn o
 
 Når NSG-en er opprettet:
 - Gå inn på `nsg-myfirstNSG-test`.
-- Velg **Inbound security rules**.  
-- Legg til en regel for å åpne riktig port:  
-  - **Windows VM**: RDP (TCP/3389)  
-  - **Linux VM**: SSH (TCP/22)
+- ![alt text](img/NSG-EditNSG.png)
+- Velg **Inbound security rules**.
+- ![alt text](img/NSGInbound.png)  
+- Legg til en regel for å åpne riktig port: Skriv inn et ønsket navn: F.eks. RDP og SSH for hver av reglene.
+  - **Windows VM**: RDP (TCP/3389)
+    - ![alt text](img/NSGRDP.png) 
+  - **Linux VM**: SSH (TCP/22) 
+    - ![alt text](img/NSGSSH.png)
 
 ---
 
