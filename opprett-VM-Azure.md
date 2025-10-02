@@ -40,9 +40,9 @@ Et VNet er et privat nettverk i Azure hvor du plasserer ressursene dine.
    - **Resource group**: Om den ikke er automatisk valgt, velg Resource Group som nettopp ble opprettet
    - **Name**: `vnet-myfirstVNET-test`  
    - **Region**: Samme som ressursgruppen  (I mitt eksempel: UK South)
-![alt text](img/vnetBasics.png)
+![alt text](img/vnetSwedenBasics.png)
 1. Ikke velg noe under security, koster veldig mye!! - Gå til: **IP addresses**, konfigurer et **subnet**:
-![alt text](img/editSubnet.png)  
+![alt text](img/editSubnet.png)
    - **Subnet name**: `snet-myfirstSubnet-test`  
    - **Subnet address range**: behold standardforslaget, f.eks. `10.0.0.0/24`.
 ![alt text](img/saveSubnet.png)
