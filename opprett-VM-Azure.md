@@ -156,6 +156,9 @@ Når du er ferdig med øvelsen, slett ressursgruppen for å unngå kostnader:
 
 1. Gå til **Resource groups**.  
 2. Klikk **Delete resource group** i toppen og skriv inn navnet på Resource Groupen for å bekrefte..  
+![alt text](img/DeleteRG.png)
+- Bekreft ved å skrive inn navn og huk av for å ta med alle ressursene.
+- ![alt text](img/BekreftSletting.png)
 
 ---
 
