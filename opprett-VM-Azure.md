@@ -20,10 +20,10 @@ En ressursgruppe samler alle ressursene dine.
 1. Klikk på **Resource groups**  
 2. Trykk **Create**.
    1. ![alt text](img/createRG.png)
-3. Fyll inn:  
+3. Fyll inn: MERK! Noen av bildene viser Sweden Central, men Azure for students subscription har fått en del nye begresninger om hvor en kan opprette VM-er. Velg derfor **Switzerland North**  
    - **Subscription**: `Azure for students` (om ikke Azure for students Subscription vises, forsøk å oppdatere MAC: command + r, Windows: CTRL + R)
    - **Resource group name**: Skriv inn et passende navn `rg-myfirstIaaS-test` 
-   - **Region**: `Sweden Central` (eller nærmeste datasenter)  
+   - **Region**: `Switzerland North` (MERK!! IKKE Sweden Central som bildet viser)  
 4. Trykk **Review + Create**, og deretter **Create**.
 ![alt text](img/rgSweden.png)
 
@@ -109,33 +109,42 @@ Nå kan du lage selve VM-en og koble den til nettverket du har satt opp.
    - **Image**: velg operativsystem (f.eks. *Ubuntu 24.04 LTS*)  
 - Velg å bytte SIZE på VM-en (SKU - Stock keeping unit)
 - ![alt text](img/SizeVM.png)
-   - **Authentication type**:  
-     - SSH-nøkkel for Linux  
-     - Brukernavn/passord for Windows  
-   - Husk å velge et brukernavn som ikke er `admin` eller `root`.  
-4. Trykk **Next: Networking**.  
+- Velg deretter det samme som bildet viser.
+- ![alt text](img/VMsizeB2ats.png)
+   - **Authentication type**: For å gjøre det enklet, velg passord. Skriv inn et ønsket brukernavn og følg veiledningen på passordlengde og kompleksitet.
+   - ![alt text](img/VMpassword.png)
+ - Velg å tillate port 22 inn til maskinen. MERK! Bare for testing, ikke god produksjonspraksis.
+ - ![alt text](img/VMport22.png)
+4. Trykk **Next: Networking** i toppen.
 
 ---
 
 ## 7. Koble VM til nettverket
-1. Under **Virtual network**, velg `vnet-demo`.  
-2. Under **Subnet**, velg `subnet-demo`.  
-3. Under **NIC network security group**, velg **None** (fordi vi bruker NSG knyttet til subnettet).  
-4. Trykk **Review + Create**, og deretter **Create**.
-
+1. Under **Virtual network**, velg det virtuelle nettverkt som du akkurat har opprettet
+2. Under **Subnet**, velg subnet opprettet sammen med det virtuelle nettverket.
+3. MERK: Public IP blir opprettet sammen med VM (New)
+   ![alt text](img/VMNetwork.png)
+4. Under **NIC network security group**, velg **Advanced** og velg tidligere opprettet NSG
+![alt text](img/VM-NSG-Create.png)
+5. Trykk **Review + Create**, og deretter **Create**.
+![alt text](img/CreateVM-ValidationPassed.png)
+6. VM-en er ferdig opprettet når en ser følgende visning i nettleseren:
+   - ![alt text](img/VM-DONE.png)
 ---
 
 ## 8. Koble til den virtuelle maskinen
 Når opprettelsen er ferdig, kobler du deg til VM-en:
 
 - **Linux**:  
-  1. Klikk på **Connect** → **SSH**.  
-  2. Kopier kommandoen og lim den inn i terminalen.  
-  3. Eksempel:  
+  1. Finn frem til VM-en sin offentlige adresse ved å gå til Virtual Machines. En kan også klikke seg inn på VM-en om en ønsker enda mer informasjon om VM-en.
+     1. ![alt text](img/VM-publicIP.png)  
+  2. For å koble seg til maskinen kan en nå SSH inn til maskinen (terminal for macOS (command + spacebar -> skriv inn terminal) eller PowerShell for Windows (Trykk windowstast og skriv inn PowerShell)):  
      ```bash
-     ssh brukernavn@offentlig-ip
+     ssh <brukernavnetvedopprettelse av VM>@<offentlig-ip>
      ```
-
+![alt text](img/SSH-VM-COmpleted.png)
+- Nå kan jeg skrive kommandoer direkte til VM-en som befinner seg i Microsoft Azure sitt datasenter.
+![alt text](img/VM-pormpt.png)
 - **Windows**:  
   1. Klikk på **Connect** → **RDP**.  
   2. Last ned `.rdp`-filen og logg inn med brukernavn og passord.
@@ -146,8 +155,7 @@ Når opprettelsen er ferdig, kobler du deg til VM-en:
 Når du er ferdig med øvelsen, slett ressursgruppen for å unngå kostnader:  
 
 1. Gå til **Resource groups**.  
-2. Velg `rg-demo`.  
-3. Klikk **Delete resource group**.  
+2. Klikk **Delete resource group** i toppen og skriv inn navnet på Resource Groupen for å bekrefte..  
 
 ---
 
