@@ -21,7 +21,7 @@ En ressursgruppe samler alle ressursene dine.
 2. Trykk **Create**.
    1. ![alt text](img/createRG.png)
 3. Fyll inn:  
-   - **Subscription**: `Azure for students`
+   - **Subscription**: `Azure for students` (om ikke Azure for students Subscription vises, forsøk å oppdatere MAC: command + r, Windows: CTRL + R)
    - **Resource group name**: Skriv inn et passende navn `rg-myfirstIaaS-test` 
    - **Region**: `UK South` (eller nærmeste datasenter)  
 4. Trykk **Review + Create**, og deretter **Create**.
@@ -32,16 +32,20 @@ En ressursgruppe samler alle ressursene dine.
 ## 3. Opprett et virtuelt nettverk (VNet)
 Et VNet er et privat nettverk i Azure hvor du plasserer ressursene dine.  
 
-1. Gå til **Create a resource** → Søk etter **Virtual Network**.  
-2. Velg **Create**.  
+1. Søk etter **Virtual Network**.
+   1. ![alt text](img/vnet.png)
+2. Velg **Create**.
+   1. ![alt text](img/createVNET.png)
 3. Fyll inn:  
-   - **Resource group**: `rg-demo`  
-   - **Name**: `vnet-demo`  
-   - **Region**: Samme som ressursgruppen  
-4. Under **IP addresses**, opprett et **subnet**:  
-   - **Subnet name**: `subnet-demo`  
+   - **Resource group**: Om den ikke er automatisk valgt, velg Resource Group som nettopp ble opprettet
+   - **Name**: `vnet-myfirstVNET-test`  
+   - **Region**: Samme som ressursgruppen  (I mitt eksempel: UK South)
+![alt text](img/vnetBasics.png)
+4. Ikke velg noe under security, koster veldig mye!! - Gå til: **IP addresses**, opprett et **subnet**:  
+   - **Subnet name**: `snet-myfirstSubnet-test`  
    - **Subnet address range**: behold standardforslaget, f.eks. `10.0.0.0/24`.  
 5. Trykk **Review + Create**, og deretter **Create**.
+
 
 ---
 
