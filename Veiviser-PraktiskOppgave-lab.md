@@ -93,7 +93,7 @@ Hook URL: http://KaliSinLokaleIP-adresse:3000/hook.js
 
 ### 2.2 Gå til BeeF UI
 
-I Firefox, gå til:
+I Firefox, gå til: (MERK: 127.0.0.1 fungerer bare på Kali, 127.0.0.1 er loopback som vil si at en ser på seg selv og er det samme som å skrive localhost)
 ```
 http://127.0.0.1:3000/ui/panel
 ```
@@ -108,8 +108,6 @@ http://127.0.0.1:3000/ui/panel
 - **Current Browser** (midten) - ingen valgt enda
 - **Commands** (høyre panel) - tom
 
-> 📸 **Screenshot 1:** Ta et bilde av BeeF UI uten hooked browsers
-
 ---
 
 ## Steg 3: Lag en enkel HTML-side med BeeF hook
@@ -121,6 +119,7 @@ I terminal på Kali:
 cd ~/beef-lab
 nano index.html
 ```
+Eller ved bruk av TextEdit (GUI):
 
 ### 3.2 Lim inn følgende HTML-kode
 
