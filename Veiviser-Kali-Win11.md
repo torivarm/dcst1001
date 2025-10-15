@@ -97,7 +97,7 @@ BeeF Lab for Datasikkerhet
 Skriv inn ditt NTNU passord
 
 ### 3.2 Skriv inn Key Name
-key_name: Denne har vi opprettet tidligere
+key_name: Skriv inn det samme navnet som har på tidligere opprettet key pair. (tidligere lastet ned .pem fil i forbindelse med deployment av Windows 11 og Windows Server og WireShark testing)
 
 ### 3.3 Launch Stack
 1. Klikk **Launch** (nederst til høyre)
@@ -109,7 +109,7 @@ key_name: Denne har vi opprettet tidligere
 2. Kali Linux og Windows 11 VMs startes
 3. Cloud-init installerer programvare på Kali Linux
 
-> ⏳ **Viktig:** Selv når stacken viser CREATE_COMPLETE, må du vente **20-25 minutter** til før BeeF og GUI er installert og Windows 11 ferdig konfigurert og du kan hente ut passordet i OpenStack.
+> ⏳ **Viktig:** Selv når stacken viser CREATE_COMPLETE, må du vente **35-40 minutter** til før BeeF og GUI er installert og Windows 11 ferdig konfigurert og du kan hente ut passordet i OpenStack.
 
 ---
 
