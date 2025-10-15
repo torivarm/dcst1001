@@ -26,19 +26,20 @@
 
 ## Før du starter
 
-### 🛠️ Du trenger:
+### 🛠️ Du trenger
 - ✅ NTNU brukernavn og passord
 - ✅ SSH Key registrert i OpenStack (vi har opprettet det tidligere)
 - ✅ RDP-klient installert på din maskin:
   - **Windows:** Innebygd "Remote Desktop Connection" (Tilkobling til eksternt skrivebord)
   - **macOS:** Last ned "Windows App" fra App Store (alt gjort tidligere i faget)
   - **Linux:** Installer Remmina (`sudo apt install remmina`)
-- ✅ Heat template-filen: `beef-lab.yaml` (tilgjengelig i BlackBoard)
+- ✅ Heat template-filen: `beef-lab.yaml`
+- [beef-lab.yaml](https://raw.githubusercontent.com/torivarm/dcst1001/refs/heads/main/beef-lab.yaml.yaml)
 
 ### ⏱️ Tidsestimat:
-- Deploy av stack: **2-3 minutter**
+- Deploy av stack: **5-10 minutter**
 - Installasjon av programvare: **10-15 minutter**
-- **Total tid:** Ca. 15-20 minutter før alt er klart
+- **Total tid:** Ca. 20-25 minutter før alt er klart
 
 ---
 
@@ -47,18 +48,12 @@
 ### 1.1 Åpne nettleser
 Gå til: **https://skyhigh.iik.ntnu.no/**
 
-### 1.2 Velg autentiseringsmetode
-1. I dropdown-menyen "Authenticate using", velg: **`NTNU OpenID Connect`**
-2. Klikk **Connect**
-
-![OpenStack login](placeholder-for-screenshot)
-
-### 1.3 Logg inn med NTNU-bruker
-1. Skriv inn ditt NTNU brukernavn (f.eks. `brukernavn@ntnu.no`)
+### 1.2 Logg inn med NTNU-bruker
+1. Skriv inn ditt NTNU brukernavn
 2. Skriv inn ditt NTNU passord
 3. Fullfør eventuell to-faktor autentisering
 
-### 1.4 Verifiser innlogging
+### 1.3 Verifiser innlogging
 Du skal nå se OpenStack Dashboard med menyer på venstre side.
 
 ---
@@ -66,11 +61,11 @@ Du skal nå se OpenStack Dashboard med menyer på venstre side.
 ## Steg 2: Last opp Heat Template
 
 ### 2.1 Gå til Orchestration
-1. I venstre meny, klikk på **Project**
-2. Klikk på **Orchestration**
-3. Klikk på **Stacks**
-
-![Orchestration menu](placeholder-for-screenshot)
+1. Klikk på **Orchestration**
+2. Klikk på **Stacks**
+3. Slett eksisterende stacks om du har noen fra før
+   1. ![alt text](img/deletestack.png)
+4. Vent til stack er slettet
 
 ### 2.2 Start Launch Stack
 Klikk på knappen **"Launch Stack"** (øverst til høyre)
@@ -80,9 +75,7 @@ Klikk på knappen **"Launch Stack"** (øverst til høyre)
 2. Klikk **Choose File** / **Browse**
 3. Velg filen `beef-lab.yaml` som du har fått utdelt
 4. Klikk **Next**
-
-![Template upload](placeholder-for-screenshot)
-
+![alt text](img/velgtemplate.png)
 ---
 
 ## Steg 3: Deploy Stack
