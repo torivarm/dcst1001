@@ -318,7 +318,7 @@ beef
 
 **Passord:**
 ```
-Passordet du opprettet med kommandoen sudo beef-xss i steg 6.2
+Passordet du opprettet med kommandoen sudo beef-xss i steg 6.2 (F.eks: Kali2025)
 ```
 
 Klikk **Login**.
