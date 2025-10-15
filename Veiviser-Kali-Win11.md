@@ -114,6 +114,8 @@ Etterpå finner du nøkkelen i `C:\Users\<brukernavn>\.ssh\id_ed25519.pub`.
 
 ### 1.1 Åpne nettleser
 Gå til: **https://skyhigh.iik.ntnu.no/**
+Om du sitter hjemme, benytt VPN for å få tilgang.
+**https://vpn.ntnu.no/**
 
 ### 1.2 Logg inn med NTNU-bruker
 1. Skriv inn ditt NTNU brukernavn
