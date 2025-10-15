@@ -33,8 +33,8 @@
   - **Windows:** Innebygd "Remote Desktop Connection" (Tilkobling til eksternt skrivebord)
   - **macOS:** Last ned "Windows App" fra App Store (alt gjort tidligere i faget)
   - **Linux:** Installer Remmina (`sudo apt install remmina`)
-- ✅ Heat template-filen: `beef-lab.yaml`
-- [beef-lab-final.yaml](https://raw.githubusercontent.com/torivarm/dcst1001/refs/heads/main/beef-lab-final.yaml)
+- ✅ Heat template-filen: `beef-lab-final.yaml`
+- [beef-lab-final.yaml](https://github.com/torivarm/dcst1001/blob/main/beef-lab-final.yaml)
 
 ### ⏱️ Tidsestimat:
 - Deploy av stack: **10-15 minutter**

