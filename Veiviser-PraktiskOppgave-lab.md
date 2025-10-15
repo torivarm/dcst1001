@@ -114,12 +114,7 @@ http://127.0.0.1:3000/ui/panel
 
 ### 3.1 Opprett HTML-fil
 
-I terminal på Kali:
-```bash
-cd ~/beef-lab
-nano index.html
-```
-Eller ved bruk av TextEdit (GUI):
+Ved bruk av TextEdit (GUI):
 
 ### 3.2 Lim inn følgende HTML
 **Om det er vanskelig å kopiere HTML-kode mellom veiviser og inn til Kali via RDP, åpne denne veiviser siden i Firefox på Kali Linux**
@@ -244,6 +239,13 @@ Du skal se linjen med BeeF hook.
 
 ---
 
+I terminal på Kali:
+```bash
+cd ~/beef-lab
+nano index.html
+```
+---
+
 ## Steg 4: Start en webserver
 
 ### 4.1 Start Python webserver
@@ -283,13 +285,14 @@ Du skal se HTML-koden fra `index.html`.
 - Start Microsoft Edge eller Chrome
 - Gå til adressen:
   ```
-  http://192.168.111.XXX:8080
+  http://192.168.x.x:8080
   ```
-  (Bytt XXX med din Kali IP!)
+  (Bytt x.x med din Kali IP!)
 
 ### 5.3 Se at siden lastes
 
 Du skal nå se "Kåres Kaffebar" siden i Windows nettleseren.
+![alt text](img/kaffebar.png)
 
 **Fra brukerens perspektiv:**
 - Alt ser normalt ut
@@ -321,7 +324,7 @@ Online Browsers (1)
 
 > 🎉 **Gratulerer! Du har hooked din første browser!**
 
-> 📸 **Screenshot 2:** Ta et bilde av BeeF med hooked browser
+![alt text](img/hookedBrowser.png)
 
 ### 6.3 Klikk på den hooked nettleseren
 
@@ -348,6 +351,8 @@ I høyre panel, klikk på **Commands**.
 3. Klikk på den
 4. I tekst-feltet, skriv: `Hei fra BeeF!`
 5. Klikk **Execute**
+
+![alt text](img/AlertDialog.png)
 
 ### 7.3 Se resultatet på Windows 11
 
