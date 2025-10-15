@@ -81,7 +81,7 @@ Klikk på knappen **"Launch Stack"** (øverst til høyre)
 ## Steg 3: Deploy Stack
 
 ### 3.1 Fyll ut Stack-detaljer
-
+![alt text](img/fyllinndetaljer.png)
 **Stack Name:**
 ```
 beef-lab-<ditt-brukernavn>
@@ -93,15 +93,11 @@ Eksempel: `beef-lab-ole123`
 BeeF Lab for Datasikkerhet
 ```
 
-**Password for user "admin":**  
-La stå tom (ikke i bruk)
+**Password for user "DITTBRUKERNAVN":**  
+Skriv inn ditt NTNU passord
 
-### 3.2 Fyll ut Parameters
-
-Under **Parameters**:
-
-**key_name:**  
-Velg din SSH-nøkkel fra dropdown-menyen.
+### 3.2 Skriv inn Key Name
+key_name: Denne har vi opprettet tidligere
 
 > ⚠️ **Hvis du ikke har SSH-nøkkel:** Se [Hvordan lage SSH-nøkkel](#hvordan-lage-ssh-nøkkel) nederst.
 
@@ -109,21 +105,13 @@ Velg din SSH-nøkkel fra dropdown-menyen.
 1. Klikk **Launch** (nederst til høyre)
 2. Du blir sendt til Stack-oversikten
 
-![Stack launching](placeholder-for-screenshot)
-
 ### 3.4 Vent på deployment
-
-**Se på Status-kolonnen:**
-- 🟡 **CREATE_IN_PROGRESS** - Deployment pågår (2-3 min)
-- 🟢 **CREATE_COMPLETE** - Ferdig!
-- 🔴 **CREATE_FAILED** - Feil (se [Feilsøking](#feilsøking))
-
 **Dette skjer nå:**
-1. OpenStack oppretter nettverk og security groups (30 sek)
-2. Kali Linux og Windows 11 VMs startes (2 min)
-3. Cloud-init installerer programvare (10-15 min)
+1. OpenStack oppretter nettverk og security groups
+2. Kali Linux og Windows 11 VMs startes
+3. Cloud-init installerer programvare på Kali Linux
 
-> ⏳ **Viktig:** Selv når stacken viser CREATE_COMPLETE, må du vente **10-15 minutter** til før BeeF og GUI er installert!
+> ⏳ **Viktig:** Selv når stacken viser CREATE_COMPLETE, må du vente **10-15 minutter** til før BeeF og GUI er installert og Windows 11 ferdig konfigurert og du kan hente ut passordet i OpenStack.
 
 ---
 
