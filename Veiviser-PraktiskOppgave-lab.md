@@ -32,7 +32,7 @@
 ```bash
 ip addr show | grep "inet 192"
 ```
-![alt text](img/showIPkali.pngs)
+![alt text](img/showIPkali.png)
 Noter IP-adressen (f.eks. `192.168.111.102`)
 
 **På Windows 11:**
