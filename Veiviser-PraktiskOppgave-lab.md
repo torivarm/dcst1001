@@ -23,33 +23,7 @@
 - [ ] Windows 11 VM kjører
 - [ ] Begge VMs er på samme nettverk (192.168.111.0/24)
 - [ ] BeeF er installert på Kali (`which beef-xss` gir output)
-- [ ] Du har notert IP-adressene til begge maskinene
-
-### 📝 Finn IP-adresser
-
-**På Kali Linux: MERK! For å lime inn kommandoene fra Mac til Kali Linux måtte jeg benytte ctrl+shift+v**
-
-```bash
-ip addr show | grep "inet 192"
-```
-![alt text](img/showIPkali.png)
-Noter IP-adressen (f.eks. `192.168.111.102`)
-
-**På Windows 11:**
-```cmd
-ipconfig
-```
-Noter IP-adressen (f.eks. `192.168.111.103`)
-
-### 📂 Lag arbeidsmappe
-
-På Kali, opprett en mappe for labøvelsene. Kjør følgende kommando i terminalen, og endre deretter til beef-lab som stående mappe i terminalen:
-```bash
-mkdir -p ~/beef-lab
-cd ~/beef-lab
-```
-![alt text](img/beeflab-folder.png)
----
+- [ ] Du har notert IP-adressene til begge maskinene (både interne 192.169.x.x og "offentlige" på 10.x.x.x)
 
 # Oppgave 1: First Hook 🎣
 
@@ -65,24 +39,31 @@ cd ~/beef-lab
 
 ## Steg 1: Start BeeF
 
-### 1.1 Koble til Kali via RDP eller SSH
+### 1.1 Koble til Kali via RDP
 
 **Via RDP:**
 - Åpne RDP-klient
 - Koble til Kali IP på port 3389
 - Login: `student` / `Kali2025`
 
-**Via SSH:**
+### 📂 Lag arbeidsmappe
+
+På Kali, opprett en mappe for labøvelsene. Kjør følgende kommando i terminalen, og endre deretter til beef-lab som stående mappe i terminalen:
 ```bash
-ssh student@<KALI-IP>
+mkdir -p ~/beef-lab
+cd ~/beef-lab
 ```
+![alt text](img/TerminalKali-LabFolder.png)
+
+---
 
 ### 1.2 Start BeeF service
 
-Åpne Terminal på Kali og kjør:
+Åpne Terminal på Kali og kjør.
 ```bash
 sudo beef-xss
 ```
+
 
 **Forventet output:**
 ```
@@ -96,7 +77,7 @@ sudo beef-xss
 
 **Viktig:** Noter Hook URL-en som vises:
 ```
-Hook URL: http://192.168.111.XXX:3000/hook.js
+Hook URL: http://KaliSinLokaleIP-adresse:3000/hook.js
 ```
 
 > ⚠️ **La denne terminalen stå åpen!** Hvis du lukker den, stopper BeeF.
@@ -107,7 +88,7 @@ Hook URL: http://192.168.111.XXX:3000/hook.js
 
 ### 2.1 Åpne Firefox på Kali
 
-- Klikk på Applications → Firefox ESR
+- Klikk på Applications → Firefox
 - Eller trykk terminal: `firefox &`
 
 ### 2.2 Gå til BeeF UI
@@ -120,7 +101,7 @@ http://127.0.0.1:3000/ui/panel
 ### 2.3 Logg inn
 
 **Brukernavn:** `beef`  
-**Passord:** `beef`
+**Passord:** `passordetDuSkrevInnVedFørsteGangsKjøringAv sudo beef-xss`
 
 **Etter innlogging skal du se:**
 - **Hooked Browsers** (venstre panel) - tom foreløpig
