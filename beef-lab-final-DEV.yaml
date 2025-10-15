@@ -5,7 +5,7 @@ description: NTNU Datasikkerhet - BeeF XSS Framework Lab
 parameters:
   key_name:
     type: string
-    description: Name of keypair to assign to VMs
+    description: SSH keypair name
 
 resources:
   private_net:
@@ -17,6 +17,9 @@ resources:
       network_id: { get_resource: private_net }
       cidr: 192.168.111.0/24
       gateway_ip: 192.168.111.1
+      dns_nameservers:
+        - 129.241.0.200
+        - 129.241.0.201
       allocation_pools:
         - start: 192.168.111.101
           end: 192.168.111.200
@@ -60,6 +63,10 @@ resources:
           protocol: tcp
           port_range_min: 3389
           port_range_max: 3389
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 8080
+          port_range_max: 8080
 
   kali:
     type: OS::Nova::Server
@@ -75,7 +82,7 @@ resources:
         #cloud-config
         package_upgrade: true
         timezone: "Europe/Oslo"
-
+        
         users:
           - default
           - name: student
@@ -85,7 +92,9 @@ resources:
             groups: sudo
             sudo: ALL=(ALL) NOPASSWD:ALL
             shell: /bin/bash
-
+            ssh_authorized_keys:
+              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDZG7//kJBzyU+cQI1LTIRmP4umzhCRuOlSM9Oi5gH+0 macbook-demo-key
+        
         packages:
           - kali-linux-headless
           - kali-desktop-xfce
@@ -94,32 +103,57 @@ resources:
           - xorgxrdp
           - beef-xss
           - firefox-esr
-
+          - curl
+          - git
+          - vim
+          - net-tools
+        
         write_files:
-          - path: /home/student/Desktop/BeeF-Info.txt
+          - path: /home/student/.xsession
             content: |
-              NTNU Datasikkerhet Lab
+              #!/bin/sh
+              exec startxfce4
+            owner: student:student
+            permissions: '0755'
+          
+          - path: /home/student/Desktop/BeeF-Instruksjoner.txt
+            content: |
+              NTNU Datasikkerhet Lab - BeeF Framework
+              ==========================================
               
-              PAALOGGING KALI:
+              PÅLOGGING:
               Brukernavn: student
-              Passord: Datasikkerhet2025
+              Passord:    Kali2025
               
               START BeeF:
               sudo beef-xss
               
-              BeeF WEB:
+              BeeF WEB UI:
               http://127.0.0.1:3000/ui/panel
               Login: beef / beef
+              
+              HOOK URL:
+              http://[KALI-IP]:3000/hook.js
+              
+              DEMO SERVER:
+              python3 -m http.server 8080
+              
+              VIKTIG: Kun for undervisning!
             owner: student:student
-
+            permissions: '0644'
+        
         runcmd:
           - systemctl enable xrdp
           - systemctl start xrdp
           - mkdir -p /home/student/Desktop
-          - chown -R student:student /home/student/Desktop
-
+          - chown -R student:student /home/student
+          - touch /home/student/.hushlogin
+          - touch /var/lib/cloud/instance/locale-check.skip
+          - DEBIAN_FRONTEND=noninteractive apt-get install -y locales-all
+        
         power_state:
           mode: reboot
+          message: Reboot after setup
           timeout: 30
           condition: True
 
@@ -164,14 +198,46 @@ resources:
       port_id: { get_resource: win11_port }
 
 outputs:
+  connection_info:
+    description: Tilkoblingsinformasjon
+    value:
+      str_replace:
+        template: |
+          ==========================================
+          NTNU DATASIKKERHET LAB
+          ==========================================
+          
+          KALI LINUX:
+          RDP:  $kali_ip:3389
+          SSH:  ssh student@$kali_ip
+          Web:  http://$kali_ip:3000/ui/panel
+          User: student / Kali2025
+          BeeF: beef / beef
+          
+          WINDOWS 11:
+          RDP:  $win11_ip:3389
+          
+          NETTVERK:
+          Kali Private:   192.168.111.x
+          Win11 Private:  192.168.111.x
+          
+          ==========================================
+        params:
+          $kali_ip: { get_attr: [ kali_floating_ip, floating_ip_address ] }
+          $win11_ip: { get_attr: [ win11_floating_ip, floating_ip_address ] }
+  
   kali_public_ip:
-    description: Kali IP for RDP
+    description: Kali public IP
     value: { get_attr: [ kali_floating_ip, floating_ip_address ] }
   
-  paalogging:
-    description: Brukernavn student, Passord Datasikkerhet2025
-    value: "Start BeeF med sudo beef-xss, deretter http://127.0.0.1:3000/ui/panel (beef/beef)"
-  
   win11_public_ip:
-    description: Windows 11 IP
+    description: Windows 11 public IP
     value: { get_attr: [ win11_floating_ip, floating_ip_address ] }
+  
+  beef_hook_url:
+    description: BeeF Hook URL
+    value:
+      str_replace:
+        template: "http://$ip:3000/hook.js"
+        params:
+          $ip: { get_attr: [ kali_floating_ip, floating_ip_address ] }

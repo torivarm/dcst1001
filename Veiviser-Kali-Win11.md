@@ -33,8 +33,71 @@
   - **Windows:** Innebygd "Remote Desktop Connection" (Tilkobling til eksternt skrivebord)
   - **macOS:** Last ned "Windows App" fra App Store (alt gjort tidligere i faget)
   - **Linux:** Installer Remmina (`sudo apt install remmina`)
-- ✅ Heat template-filen: `beef-lab-final.yaml`
+- ✅ Last ned Heat template-filen: `beef-lab-final.yaml`
 - [beef-lab-final.yaml](https://github.com/torivarm/dcst1001/blob/main/beef-lab-final.yaml)
+- ✅ Endre SSH informasjonen i templaten
+![alt text](img/endreSSHinfo.png)
+
+## 🔑 Finne eller opprette SSH-ed25519-nøkkel
+
+### 💻 macOS (Terminal / bash)
+
+#### 1. Sjekk om du allerede har en nøkkel
+```bash
+ls ~/.ssh
+````
+
+Se etter en fil som heter `id_ed25519.pub`.
+
+#### 2. Hvis du allerede har en nøkkel
+
+Vis nøkkelen din:
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+#### 3. Hvis du ikke har en nøkkel
+
+Opprett en ny:
+
+```bash
+ssh-keygen -t ed25519 -C "din_epost@adresse.no"
+```
+
+Trykk **Enter** på alle spørsmål for å bruke standardvalg.
+Etterpå finner du nøkkelen i `~/.ssh/id_ed25519.pub`.
+
+---
+
+### 🪟 Windows (PowerShell)
+
+#### 1. Sjekk om du allerede har en nøkkel
+
+```powershell
+dir ~/.ssh
+```
+
+Se etter `id_ed25519.pub`.
+
+#### 2. Hvis du allerede har en nøkkel
+
+Vis nøkkelen din:
+
+```powershell
+cat ~/.ssh/id_ed25519.pub
+```
+
+#### 3. Hvis du ikke har en nøkkel
+
+Opprett en ny:
+
+```powershell
+ssh-keygen -t ed25519 -C "din_epost@adresse.no"
+```
+
+Trykk **Enter** på alle spørsmål for å bruke standardvalg.
+Etterpå finner du nøkkelen i `C:\Users\<brukernavn>\.ssh\id_ed25519.pub`.
 
 ### ⏱️ Tidsestimat:
 - Deploy av stack: **10-15 minutter**
