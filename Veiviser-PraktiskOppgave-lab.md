@@ -361,8 +361,6 @@ Bytt til Windows 11 nettleseren. Du skal se en alert-boks med teksten:
 Hei fra BeeF!
 ```
 
-> 📸 **Screenshot 3:** Ta et bilde av alert-boksen på Windows
-
 ### 7.4 Se kommando-resultatet i BeeF
 
 I BeeF UI:
@@ -374,14 +372,14 @@ I BeeF UI:
 
 ## Steg 8: Analyser hva som skjedde
 
-### 8.1 Se på nettverk-trafikk (valgfritt)
+### 8.1 Se på nettverk-trafikk med WireShark (valgfritt)
 
 På Windows 11, åpne Developer Tools:
-- Trykk `F12`
+- Trykk `F12` (eller velg Developer Tools)
 - Gå til **Network** fanen
 - Refresh siden
 - Se etter requests til `hook.js` og polling til BeeF-serveren
-
+![alt text](img/hookjsrefresh.png)
 ### 8.2 Forstå mekanismen
 
 **Hva skjedde teknisk?**
@@ -404,17 +402,12 @@ På Windows 11, åpne Developer Tools:
 
 ## Leveranse for Oppgave 1
 
-### 📄 Lag en rapport (Markdown eller PDF)
-
-**Filnavn:** `Oppgave1_FirstHook_[DittNavn].md`
+### 📄 Lag en superkort rapport
 
 **Innhold:**
 
 ```markdown
 # Oppgave 1: First Hook
-
-**Student:** [Ditt navn]
-**Dato:** [Dato]
 
 ## 1. Screenshots
 
@@ -435,7 +428,7 @@ På Windows 11, åpne Developer Tools:
 
 ## 3. Hva skjedde teknisk?
 
-[Forklar med egne ord hva som skjedde når Windows-nettleseren lastet siden]
+[Forsøk å forklar med egne ord hva som skjedde når Windows-nettleseren lastet siden]
 
 Steg for steg:
 1. Windows nettleser lastet index.html fra Kali webserver
@@ -444,38 +437,20 @@ Steg for steg:
 4. ...
 
 ## 4. Sikkerhetsperspektiv
+**Bruk internettet som oppslagsverk**
 
 ### 4.1 Angriper-perspektiv
 Hva kan en angriper gjøre med en hooked browser?
-[Dine tanker]
 
 ### 4.2 Forsvar-perspektiv
 Hvordan kan en bruker beskytte seg mot dette?
-[Dine tanker]
 
 ## 5. Refleksjon
-
 Hva lærte du av denne oppgaven?
-[Dine refleksjoner]
+
 ```
 
 ---
-
-## ❓ Feilsøking Oppgave 1
-
-### Problem: BeeF starter ikke
-
-**Løsning:**
-```bash
-# Sjekk om port 3000 er i bruk
-sudo netstat -tuln | grep 3000
-
-# Hvis opptatt, drep prosessen
-sudo fuser -k 3000/tcp
-
-# Start BeeF på nytt
-sudo beef-xss
-```
 
 ### Problem: Nettleseren blir ikke hooked
 
@@ -483,30 +458,7 @@ sudo beef-xss
 1. Er BeeF fortsatt i gang? (Se terminal-vinduet)
 2. Er IP-adressen riktig i HTML-filen?
 3. Kjører webserveren? (Se terminal)
-4. Kan Windows nå Kali? Test: `ping 192.168.111.XXX` fra Windows
-
-**Debug:**
-```bash
-# På Kali, se BeeF logger
-sudo journalctl -u beef -f
-
-# Se webserver logger
-# (Se terminalen der python webserver kjører)
-```
-
-### Problem: Kan ikke nå websiden fra Windows
-
-**Løsning:**
-```bash
-# Sjekk firewall på Kali
-sudo ufw status
-
-# Hvis aktiv, tillat port 8080
-sudo ufw allow 8080/tcp
-
-# Test at port er åpen
-sudo netstat -tuln | grep 8080
-```
+4. Kan Windows nå Kali? Test: `ping 192.168.x.x` fra Windows
 
 ---
 
