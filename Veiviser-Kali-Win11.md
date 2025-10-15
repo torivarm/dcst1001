@@ -68,6 +68,8 @@ ssh-keygen -t ed25519 -C "din_epost@adresse.no"
 Trykk **Enter** på alle spørsmål for å bruke standardvalg.
 Etterpå finner du nøkkelen i `~/.ssh/id_ed25519.pub`.
 
+**Erstatt deretter innholdet i templaten med din egen informasjon som typisk ser ut som `ssh-ed25519 AAAAC3NzaC1lZDI1N......TE5AAAAI epost@adresse.no`
+
 ---
 
 ### 🪟 Windows (PowerShell)
@@ -98,6 +100,8 @@ ssh-keygen -t ed25519 -C "din_epost@adresse.no"
 
 Trykk **Enter** på alle spørsmål for å bruke standardvalg.
 Etterpå finner du nøkkelen i `C:\Users\<brukernavn>\.ssh\id_ed25519.pub`.
+
+**Erstatt deretter innholdet i templaten med din egen informasjon som typisk ser ut som `ssh-ed25519 AAAAC3NzaC1lZDI1N......TE5AAAAI epost@adresse.no`
 
 ### ⏱️ Tidsestimat:
 - Deploy av stack: **10-15 minutter**
