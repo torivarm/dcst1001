@@ -27,10 +27,12 @@
 
 ### 📝 Finn IP-adresser
 
-**På Kali Linux:**
+**På Kali Linux: MERK! For å lime inn kommandoene fra Mac til Kali Linux måtte jeg benytte ctrl+shift+v**
+
 ```bash
 ip addr show | grep "inet 192"
 ```
+![alt text](img/showIPkali.pngs)
 Noter IP-adressen (f.eks. `192.168.111.102`)
 
 **På Windows 11:**
@@ -41,12 +43,12 @@ Noter IP-adressen (f.eks. `192.168.111.103`)
 
 ### 📂 Lag arbeidsmappe
 
-På Kali, opprett en mappe for labøvelsene:
+På Kali, opprett en mappe for labøvelsene. Kjør følgende kommando i terminalen, og endre deretter til beef-lab som stående mappe i terminalen:
 ```bash
 mkdir -p ~/beef-lab
 cd ~/beef-lab
 ```
-
+![alt text](img/beeflab-folder.png)
 ---
 
 # Oppgave 1: First Hook 🎣
