@@ -279,7 +279,6 @@ Kali2025
 
 Trykk Enter.
 
-![Terminal BeeF start](placeholder-for-screenshot)
 
 ### 6.4 Vent på oppstart
 Du vil se masse tekst i terminalen. Vent til du ser noe lignende:
@@ -309,8 +308,6 @@ http://127.0.0.1:3000/ui/panel
 
 Trykk Enter.
 
-![Firefox BeeF URL](placeholder-for-screenshot)
-
 ### 7.3 Logg inn på BeeF
 **Brukernavn:**
 ```
@@ -319,12 +316,10 @@ beef
 
 **Passord:**
 ```
-beef
+Passordet du opprettet med kommandoen sudo beef-xss i steg 6.2
 ```
 
 Klikk **Login**.
-
-![BeeF login](placeholder-for-screenshot)
 
 ### 7.4 Utforsk BeeF-grensesnittet
 
@@ -332,8 +327,6 @@ Du skal nå se BeeF's hovedgrensesnitt med:
 - 🖥️ **Hooked Browsers** (venstre side) - Viser "hooked" nettlesere
 - 📊 **Current Browser** (midten) - Info om valgt nettleser
 - 🎯 **Commands** (høyre side) - Kommandoer du kan kjøre
-
-![BeeF interface](placeholder-for-screenshot)
 
 ---
 
@@ -355,11 +348,12 @@ win11_public_ip: 10.212.xxx.xxx
 
 **Username:**
 ```
-Administrator
+Admin
 ```
 
 **Password:**  
-Windows 11 bruker standard Windows-passord. Spør faglærer hvis nødvendig.
+Hent ut passordet via retrieve password fra OpenStack Web grensesnittet
+![alt text](img/getPasswordOpenStack.png)
 
 ### 8.3 Test BeeF Hook
 På Windows 11-maskinen:
@@ -369,41 +363,6 @@ På Windows 11-maskinen:
 
 ---
 
-## Feilsøking
-
-### ❌ Problem: "Stack creation failed"
-
-**Løsning:**
-1. Sjekk at du valgte riktig SSH-nøkkel
-2. Slett stacken (Delete Stack)
-3. Prøv igjen med Launch Stack
-
----
-
-### ❌ Problem: "Cannot connect via RDP"
-
-**Mulige årsaker:**
-
-**1. Installasjon ikke ferdig enda**
-- Vent 15 minutter etter CREATE_COMPLETE
-- Sjekk status: SSH inn og kjør `cloud-init status`
-
-**2. Feil IP-adresse**
-- Dobbeltsjekk IP fra Stack Outputs
-- Prøv å ping IP-adressen: `ping 10.212.xxx.xxx`
-
-**3. Port 3389 blokkert**
-- Sjekk at Security Group har port 3389 åpen
-- Gå til Project → Network → Security Groups
-- Klikk på `beef-lab-security`
-- Verifiser regel for port 3389
-
-**4. RDP-service ikke startet**
-- SSH inn til Kali: `ssh student@10.212.xxx.xxx`
-- Sjekk xrdp: `sudo systemctl status xrdp`
-- Start hvis nødvendig: `sudo systemctl start xrdp`
-
----
 
 ### ❌ Problem: "BeeF starter ikke"
 
@@ -417,16 +376,6 @@ sudo apt update
 sudo apt install beef-xss
 ```
 
-**Løsning 2: Port 3000 i bruk**
-```bash
-sudo netstat -tuln | grep 3000
-```
-Hvis opptatt, drep prosessen:
-```bash
-sudo pkill -f beef
-```
-Prøv igjen: `sudo beef-xss`
-
 ---
 
 ### ❌ Problem: "Kan ikke nå BeeF web-grensesnitt"
@@ -435,44 +384,6 @@ Prøv igjen: `sudo beef-xss`
 1. Sjekk at BeeF kjører i terminalen
 2. Bruk **127.0.0.1** eller **localhost**, IKKE Kali's offentlige IP
 3. Sjekk at Firefox er startet **på Kali-maskinen** (ikke din lokale maskin)
-
----
-
-### ❌ Problem: "Glemt passord til BeeF"
-
-**Standard BeeF pålogging:**
-- Brukernavn: `beef`
-- Passord: `beef`
-
-Hvis endret, finn det i:
-```bash
-sudo cat /etc/beef-xss/config.yaml | grep user
-```
-
----
-
-## Opprydding etter labøvelsen
-
-### ⚠️ VIKTIG: Slett stacken når du er ferdig!
-
-Dette frigjør ressurser og forhindrer ekstra kostnader.
-
-### Slik sletter du stacken:
-1. Gå til **Project → Orchestration → Stacks**
-2. Finn din stack (f.eks. `beef-lab-ole123`)
-3. Klikk på pilen ved siden av stacken
-4. Velg **Delete Stack**
-5. Bekreft sletting
-
-![Delete stack](placeholder-for-screenshot)
-
-**Dette sletter:**
-- ✅ Begge VM-ene (Kali og Windows)
-- ✅ Nettverk og router
-- ✅ Floating IPs
-- ✅ Security groups
-
-> 💾 **Husk:** All data på VM-ene blir slettet! Ta backup hvis nødvendig.
 
 ---
 
@@ -495,7 +406,8 @@ Dette frigjør ressurser og forhindrer ekstra kostnader.
 
 Uautorisert bruk av BeeF kan være straffbart etter:
 - **Straffeloven § 204** - Datainnbrudd
-- **Straffeloven § 291** - Skadeverk
+[ Straffeloven - Søk på innbrudd i datasystemer](https://lovdata.no/dokument/NL/lov/2005-05-20-28/*#&#x2a;)
+
 
 **Husk:** At noe er teknisk mulig betyr ikke at det er lovlig eller etisk riktig!
 
@@ -543,59 +455,10 @@ cat /etc/beef-xss/config.yaml
 ### 📚 Dokumentasjon
 - **BeeF Wiki:** https://github.com/beefproject/beef/wiki
 - **Kali Linux Docs:** https://www.kali.org/docs/
-- **NTNU OpenStack:** https://innsida.ntnu.no/wiki/-/wiki/Norsk/OpenStack
-
-### 🆘 Support
-- **OpenStack support:** it-hjelp@ntnu.no
-- **Faglærer:** [Sett inn kontaktinfo]
-- **Laboratorieassistent:** [Sett inn kontaktinfo]
 
 ### 🔗 Lenker
 - **OpenStack Dashboard:** https://skyhigh.iik.ntnu.no/
-- **NTNU IT-hjelp:** https://innsida.ntnu.no/it-hjelp
-
----
-
-## Appendiks: Hvordan lage SSH-nøkkel
-
-Hvis du ikke har SSH-nøkkel i OpenStack:
-
-### På Windows (PowerShell):
-```powershell
-ssh-keygen -t ed25519 -C "dittbrukernavn@ntnu.no"
-```
-
-### På macOS/Linux (Terminal):
-```bash
-ssh-keygen -t ed25519 -C "dittbrukernavn@ntnu.no"
-```
-
-**Følg instruksjonene:**
-1. Trykk Enter for å bruke standard plassering
-2. Skriv inn passphrase (valgfritt, kan være tomt)
-3. Nøkkelen er lagret i `~/.ssh/id_ed25519`
-
-### Importer til OpenStack:
-1. Gå til **Project → Compute → Key Pairs**
-2. Klikk **Import Public Key**
-3. Kopier innholdet av `~/.ssh/id_ed25519.pub`
-4. Lim inn i "Public Key"-feltet
-5. Gi den et navn (f.eks. "min-ntnu-key")
-6. Klikk **Import Key Pair**
-
----
-
-## Sjekkliste før du starter
-
-- [ ] Jeg har logget inn på https://skyhigh.iik.ntnu.no/
-- [ ] Jeg har SSH-nøkkel registrert i OpenStack
-- [ ] Jeg har lastet ned `beef-lab.yaml`
-- [ ] Jeg har RDP-klient installert
-- [ ] Jeg har lest sikkerhetsinformasjonen
-- [ ] Jeg er klar til å starte labøvelsen! 🚀
 
 ---
 
 **Lykke til med labøvelsen!**
-
-*Versjon 1.0 - Oktober 2025*
