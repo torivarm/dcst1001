@@ -259,7 +259,7 @@ Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 ```
 
 > ⚠️ **La denne terminalen også stå åpen!**
-
+![alt text](img/python3-webserver.png)
 ### 4.2 Test at websiden fungerer
 
 Åpne en **ny terminal** på Kali og kjør:
@@ -268,7 +268,7 @@ curl http://127.0.0.1:8080
 ```
 
 Du skal se HTML-koden fra `index.html`.
-
+![alt text](img/curlIndex.png)
 ---
 
 ## Steg 5: Hooke Windows 11 nettleseren
