@@ -121,8 +121,8 @@ nano index.html
 ```
 Eller ved bruk av TextEdit (GUI):
 
-### 3.2 Lim inn følgende HTML-kode
-
+### 3.2 Lim inn følgende HTML
+**Om det er vanskelig å kopiere HTML-kode mellom veiviser og inn til Kali via RDP, åpne denne siden i Firefox på Kali Linux**
 **⚠️ VIKTIG:** Bytt ut `192.168.111.XXX` med din Kali IP-adresse!
 
 ```html
