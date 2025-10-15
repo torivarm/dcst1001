@@ -1,0 +1,125 @@
+heat_template_version: 2013-05-23
+
+description: >
+  HOT template to create a new neutron network plus a router to the public
+  network, and for deploying two virtual machines (most recent Windows 11 and Windows Server)
+
+parameters:
+  key_name:
+    type: string
+    description: Name of keypair to assign to servers
+
+resources:
+  private_net:
+    type: OS::Neutron::Net
+
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: private_net }
+      cidr: 192.168.111.0/24
+      gateway_ip: 192.168.111.1
+      allocation_pools:
+        - start: 192.168.111.101
+          end: 192.168.111.200
+
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: ntnu-internal
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: private_subnet }
+
+  win11:
+    type: OS::Nova::Server
+    properties:
+      image: 'Windows 11 24H2 Enterprise [Evaluation]'
+      flavor: gx3.2c8r
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: win11_port }
+
+  win11_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      security_groups: 
+        - { get_resource: server_security_group }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+
+  win11_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: ntnu-internal
+      port_id: { get_resource: win11_port }
+
+  
+  server:
+    type: OS::Nova::Server
+    properties:
+      image: 'Windows Server 2025 Standard [Evaluation]'
+      flavor: gx3.2c8r
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: server_port }
+
+  server_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      security_groups: 
+        - { get_resource: server_security_group }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+
+  server_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: ntnu-internal
+      port_id: { get_resource: server_port }
+
+
+  server_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      description: Add security group rules for server
+      rules:
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: icmp
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 80
+          port_range_max: 80
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 443
+          port_range_max: 443
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 3389
+          port_range_max: 3389
+
+outputs:
+  win11_private_ip:
+    description: IP address of server in private network
+    value: { get_attr: [ win11, first_address ] }
+  win11_public_ip:
+    description: Floating IP address of server in public network
+    value: { get_attr: [ win11_floating_ip, floating_ip_address ] }
+  server_private_ip:
+    description: IP address of server in private network
+    value: { get_attr: [ server, first_address ] }
+  server_public_ip:
+    description: Floating IP address of server in public network
+    value: { get_attr: [ server_floating_ip, floating_ip_address ] }
+

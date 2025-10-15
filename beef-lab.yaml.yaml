@@ -1,0 +1,177 @@
+heat_template_version: 2013-05-23
+
+description: NTNU Datasikkerhet - BeeF XSS Framework Lab
+
+parameters:
+  key_name:
+    type: string
+    description: Name of keypair to assign to VMs
+
+resources:
+  private_net:
+    type: OS::Neutron::Net
+
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: private_net }
+      cidr: 192.168.111.0/24
+      gateway_ip: 192.168.111.1
+      allocation_pools:
+        - start: 192.168.111.101
+          end: 192.168.111.200
+
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: ntnu-internal
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: private_subnet }
+
+  kali_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      description: Security group for BeeF lab
+      rules:
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: icmp
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 80
+          port_range_max: 80
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 443
+          port_range_max: 443
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 3000
+          port_range_max: 3000
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: tcp
+          port_range_min: 3389
+          port_range_max: 3389
+
+  kali:
+    type: OS::Nova::Server
+    properties:
+      name: kali-beef-lab
+      image: 'Kali Linux 2025.2 Minimal amd64'
+      flavor: gx3.2c8r
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: kali_port }
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        package_upgrade: true
+        timezone: "Europe/Oslo"
+
+        users:
+          - default
+          - name: student
+            passwd: $6$LAN6zc6SMkJlUE7.$s8/5KSXDxGpfd088vZk0//mYXXCNgTlwYFQubH75yHlhTa664jJl24pT2hDw1U8OT2Unc8YTkRGeQqhJ4onL0.
+            lock_passwd: false
+            gecos: NTNU Student
+            groups: sudo
+            sudo: ALL=(ALL) NOPASSWD:ALL
+            shell: /bin/bash
+
+        packages:
+          - kali-linux-headless
+          - kali-desktop-xfce
+          - xorg
+          - xrdp
+          - xorgxrdp
+          - beef-xss
+          - firefox-esr
+
+        write_files:
+          - path: /home/student/Desktop/BeeF-Info.txt
+            content: |
+              NTNU Datasikkerhet Lab
+              
+              PAALOGGING KALI:
+              Brukernavn: student
+              Passord: Datasikkerhet2025
+              
+              START BeeF:
+              sudo beef-xss
+              
+              BeeF WEB:
+              http://127.0.0.1:3000/ui/panel
+              Login: beef / beef
+            owner: student:student
+
+        runcmd:
+          - systemctl enable xrdp
+          - systemctl start xrdp
+          - mkdir -p /home/student/Desktop
+          - chown -R student:student /home/student/Desktop
+
+        power_state:
+          mode: reboot
+          timeout: 30
+          condition: True
+
+  kali_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      security_groups: 
+        - { get_resource: kali_security_group }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+
+  kali_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: ntnu-internal
+      port_id: { get_resource: kali_port }
+
+  win11:
+    type: OS::Nova::Server
+    properties:
+      name: win11-target
+      image: 'Windows 11 24H2 Enterprise [Evaluation]'
+      flavor: gx3.2c8r
+      key_name: { get_param: key_name }
+      networks:
+        - port: { get_resource: win11_port }
+
+  win11_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_resource: private_net }
+      security_groups: 
+        - { get_resource: kali_security_group }
+      fixed_ips:
+        - subnet_id: { get_resource: private_subnet }
+
+  win11_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: ntnu-internal
+      port_id: { get_resource: win11_port }
+
+outputs:
+  kali_public_ip:
+    description: Kali IP for RDP
+    value: { get_attr: [ kali_floating_ip, floating_ip_address ] }
+  
+  paalogging:
+    description: Brukernavn student, Passord Datasikkerhet2025
+    value: "Start BeeF med sudo beef-xss, deretter http://127.0.0.1:3000/ui/panel (beef/beef)"
+  
+  win11_public_ip:
+    description: Windows 11 IP
+    value: { get_attr: [ win11_floating_ip, floating_ip_address ] }
