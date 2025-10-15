@@ -101,7 +101,7 @@ http://127.0.0.1:3000/ui/panel
 ### 2.3 Logg inn
 
 **Brukernavn:** `beef`  
-**Passord:** `passordetDuSkrevInnVedFørsteGangsKjøringAv sudo beef-xss`
+**Passord:** `passordetDuSkrevInnVedFørsteGangsKjøringAv sudo beef-xss` (Typisk: `Kali2025`)
 
 **Etter innlogging skal du se:**
 - **Hooked Browsers** (venstre panel) - tom foreløpig
