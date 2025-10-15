@@ -666,7 +666,7 @@ Lagre filen (`Ctrl+O`, Enter, `Ctrl+X`).
 
 I Windows nettleseren, gå til:
 ```
-http://192.168.111.XXX:8080/cookies-demo.html
+http://192.168.x.x:8080/cookies-demo.html
 ```
 
 ### 3.2 "Logg inn" på siden
@@ -676,10 +676,10 @@ http://192.168.111.XXX:8080/cookies-demo.html
 - Klikk "Logg inn"
 
 Du skal nå se:
-- "✅ Du er nå innlogget som ola.nordmann"
+- "✅ Du er nå innlogget som ola.nordmann (blinker veldig fort, ikke noe viktig)"
 - En liste over cookies som ble satt
 
-> 📸 **Screenshot 4:** Ta bilde av innlogget side med cookies
+![alt text](img/cookies-demo-browser.png)
 
 ---
 
@@ -697,6 +697,7 @@ I Firefox på Kali, verifiser at Windows-nettleseren fortsatt er hooked.
 4. Finn kommandoen **Get Cookie**
 5. Klikk på den
 6. Klikk **Execute**
+![alt text](img/GetCookies.png)
 
 ### 4.3 Se resultatene
 
