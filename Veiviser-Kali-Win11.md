@@ -195,7 +195,6 @@ Scroll ned til seksjonen **Outputs**. Her finner du:
 ```
 kali_public_ip:     10.212.xxx.xxx
 win11_public_ip:    10.212.xxx.xxx
-paalogging:         "Start BeeF med sudo beef-xss..."
 ```
 
 > 📝 **NOTER DISSE IP-ADRESSENE!** Du trenger dem for RDP-tilkobling.
@@ -243,8 +242,6 @@ student
 Kali2025
 ```
 
-![RDP connection](placeholder-for-screenshot)
-
 ### 5.3 Koble til
 1. Klikk **Connect** / **Koble til**
 2. Hvis du får sertifikatadvarsel, klikk **Yes** / **Ja** / **Continue**
@@ -252,7 +249,6 @@ Kali2025
 ### 5.4 Verifiser tilkobling
 Du skal nå se **XFCE Desktop** med Kali Linux-bakgrunn!
 
-![Kali desktop](placeholder-for-screenshot)
 
 > 🐛 **Får du ikke tilkobling?** Se [Feilsøking](#feilsøking)
 
