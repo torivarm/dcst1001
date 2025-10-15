@@ -34,7 +34,7 @@
   - **macOS:** Last ned "Windows App" fra App Store (alt gjort tidligere i faget)
   - **Linux:** Installer Remmina (`sudo apt install remmina`)
 - ✅ Heat template-filen: `beef-lab.yaml`
-- [beef-lab.yaml](https://raw.githubusercontent.com/torivarm/dcst1001/refs/heads/main/beef-lab.yaml.yaml)
+- [beef-lab.yaml](https://raw.githubusercontent.com/torivarm/dcst1001/refs/heads/main/beef-lab-final.yaml)
 
 ### ⏱️ Tidsestimat:
 - Deploy av stack: **10-15 minutter**
