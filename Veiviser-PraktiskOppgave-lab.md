@@ -226,9 +226,10 @@ Eller ved bruk av TextEdit (GUI):
 
 ### 3.3 Lagre filen ved bruk av TextEdit
 ![alt text](img/Text-Editor.png)
-- Trykk `Ctrl + O` (lagre)
-- Trykk `Enter` (bekreft filnavn)
-- Trykk `Ctrl + X` (avslutt)
+
+![alt text](img/TextEdit-saveAs.png)
+
+![alt text](img/saveasIndexHTML.png)
 
 ### 3.4 Verifiser at filen er opprettet
 
@@ -238,6 +239,8 @@ cat index.html | grep hook.js
 ```
 
 Du skal se linjen med BeeF hook.
+
+![alt text](img/beefHookURL.png)
 
 ---
 
