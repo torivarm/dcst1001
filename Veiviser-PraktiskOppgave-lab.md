@@ -698,12 +698,14 @@ I Firefox på Kali, verifiser at Windows-nettleseren fortsatt er hooked.
 5. Klikk på den
 6. Klikk **Execute**
 ![alt text](img/GetCookies.png)
+![alt text](img/cookies.png)
 
 ### 4.3 Se resultatene
 
 1. Gå til **History** fanen (eller **Module Results History**)
 2. Klikk på "Get Cookie" kommandoen
 3. Du skal nå se alle cookies:
+![alt text](img/cookies.png)
 
 ```
 Cookies:
@@ -711,8 +713,6 @@ sessionID=abc123def456ghi789
 username=ola.nordmann
 authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 ```
-
-> 📸 **Screenshot 5:** Ta bilde av stjålne cookies i BeeF
 
 ---
 
@@ -749,7 +749,7 @@ Dette er en **bevisst sårbar** testside for sikkerhetstesting.
 
 ### 6.2 Logg inn på testsiden
 
-1. Klikk på "login" (øverst til høyre)
+1. Klikk på "Signup" (menyen til venstre)
 2. Brukernavn: `test`
 3. Passord: `test`
 4. Logg inn
@@ -758,10 +758,8 @@ Dette er en **bevisst sårbar** testside for sikkerhetstesting.
 
 I BeeF:
 1. Kjør **Get Cookie** igjen
-2. Se hvilke cookies testphp.vulnweb.com setter
+2. Se hvilke cookies testphp.vulnweb.com setter (MERK! Ikke alltid det dukker opp noe)
 3. Noter at noen kan inneholde session-informasjon
-
-> 📸 **Screenshot 6:** Stjålne cookies fra testphp.vulnweb.com
 
 ---
 
@@ -778,13 +776,15 @@ På **Kali Linux**, åpne en **ny inkognito/private** Firefox-tab:
 1. Gå til samme side: `http://192.168.111.XXX:8080/cookies-demo.html`
 2. Åpne Developer Tools (`F12`)
 3. Gå til **Console** fanen
-4. Skriv inn:
+4. Skriv inn: (mulig du må skrive `allow paste` først)
    ```javascript
    document.cookie = "sessionID=abc123def456ghi789; path=/";
    document.cookie = "username=ola.nordmann; path=/";
    document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9; path=/";
    ```
 5. Refresh siden
+![alt text](img/ConsoleCookie.png)
+
 
 **Resultat:** Du har nå samme cookies som "offeret" og kan potensielt overta sesjonen!
 
@@ -793,8 +793,6 @@ På **Kali Linux**, åpne en **ny inkognito/private** Firefox-tab:
 ## Leveranse for Oppgave 2
 
 ### 📄 Rapport
-
-**Filnavn:** `Oppgave2_CookieMonster_[DittNavn].md`
 
 **Innhold:**
 
