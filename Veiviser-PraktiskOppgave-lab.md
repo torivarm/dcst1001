@@ -675,7 +675,7 @@ http://192.168.x.x:8080/cookies-demo.html
 - Passord: `hemmelig123`
 - Klikk "Logg inn"
 
-Du skal nå se:
+Du skal nå se: (MERK: Du blir ikke sendt videre til noen annen side, men blir stående i samme visning. Det er meningen, og enklere for demonstrasjonsformål)
 - "✅ Du er nå innlogget som ola.nordmann (blinker veldig fort, ikke noe viktig)"
 - En liste over cookies som ble satt
 
@@ -900,10 +900,8 @@ Hvis ikke, gå til `http://192.168.111.XXX:8080` fra Windows.
 ### 1.2 Opprett en rapport-template
 
 På Kali:
-```bash
-cd ~/beef-lab
-nano reconnaissance-report.txt
-```
+Start Text Editor og opprett en fil innholdet under i samme mappe som tidligere. Lagre filen som reconnaissance-report.txt (HUSK! Om det er ikke vil kopieres mellom vinduene, åpne veiviseren i Kali Linux i en nettleser)
+
 
 Lim inn:
 ```
