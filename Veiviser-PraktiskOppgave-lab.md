@@ -963,6 +963,10 @@ I BeeF UI:
 - ✅ Platform
 - ✅ Browser Type & Version
 - ✅ User Agent String
+-  Geolokasjon
+-  Eier, etc..
+
+![alt text](img/geoloc.png)
 
 **Fyll inn i rapport:**
 ```
@@ -978,7 +982,7 @@ User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)...
 
 **Commands** → **Host** → **Detect Software**
 
-Dette sjekker for vanlig software som:
+Se i listen og forsøk å finne ut om det er installert programvare, som for eksempel:
 - Adobe Reader
 - Java
 - Flash (deprecated)
@@ -987,35 +991,6 @@ Dette sjekker for vanlig software som:
 - etc.
 
 Noter hvilken software som er installert.
-
----
-
-## Steg 3: Samle nettleser-informasjon
-
-### 3.1 Get Browser Plugins
-
-**Commands** → **Browser** → **Hooked Domain** → **Get Plugins**
-
-**Informasjon:**
-- Installerte browser plugins
-- Versjoner
-- MIME types støttet
-
-### 3.2 Get Cookie
-
-Vi gjorde dette i Oppgave 2, men kjør igjen for å se alle cookies på aktiv side.
-
-### 3.3 Get Browser Extensions (Chrome/Edge)
-
-Prøv å detektere extensions:
-
-**Manuelt via Console i BeeF:**
-
-Noen BeeF-moduler kan detektere populære extensions som:
-- AdBlock
-- LastPass
-- Grammarly
-- etc.
 
 ---
 
