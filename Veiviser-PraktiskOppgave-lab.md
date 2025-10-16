@@ -782,12 +782,11 @@ På **Kali Linux**, åpne en **ny inkognito/private** Firefox-tab:
    document.cookie = "username=ola.nordmann; path=/";
    document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9; path=/";
    ```
-5. Refresh siden
+5. Trykk enter og Refresh siden
 ![alt text](img/ConsoleCookie.png)
 
-
 **Resultat:** Du har nå samme cookies som "offeret" og kan potensielt overta sesjonen!
-
+![alt text](img/SameCookie.png)
 ---
 
 ## Leveranse for Oppgave 2
@@ -799,19 +798,11 @@ På **Kali Linux**, åpne en **ny inkognito/private** Firefox-tab:
 ```markdown
 # Oppgave 2: Cookie Monster
 
-**Student:** [Ditt navn]
-**Dato:** [Dato]
-
 ## 1. Screenshots
 
-### Screenshot 4: Innlogget side med cookies
-[Lim inn]
+### Screenshot: Stjålne cookies i BeeF
 
-### Screenshot 5: Stjålne cookies i BeeF
-[Lim inn]
-
-### Screenshot 6: Cookies fra testphp.vulnweb.com
-[Lim inn]
+### Screenshot 6: Cookies fra testphp.vulnweb.com (om mulig å få tak på?)
 
 ## 2. Cookies stjålet
 
@@ -821,21 +812,20 @@ På **Kali Linux**, åpne en **ny inkognito/private** Firefox-tab:
 - authToken: eyJ...
 
 ### Fra testphp.vulnweb.com:
-[Liste over cookies]
+
 
 ## 3. Hva er HttpOnly cookies?
+(bruk internett som oppslagsverk)
 
-[Forklar med egne ord]
-
-HttpOnly cookies er...
 
 ## 4. Hvorfor kunne ikke HttpOnly cookie stjeles?
+(bruk internett som oppslagsverk)
 
-[Forklar]
 
 ## 5. Sikkerhetstiltak
 
 ### Hvordan kan en utvikler beskytte cookies?
+(bruk internett som oppslagsverk)
 
 1. HttpOnly flag: ...
 2. Secure flag: ...
@@ -843,16 +833,16 @@ HttpOnly cookies er...
 4. ...
 
 ### Hvordan kan en bruker beskytte seg?
+(bruk internett som oppslagsverk)
 
 1. ...
 2. ...
 3. ...
 
 ## 6. Real-world scenario
+(bruk internett som oppslagsverk)
+Finn et scenario hvor cookie-theft har blitt bruket i et angrep:
 
-Beskriv et realistisk scenario hvor cookie-tyving kan brukes i et angrep:
-
-[Ditt scenario]
 
 ## 7. Refleksjon
 
