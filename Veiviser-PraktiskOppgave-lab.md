@@ -961,8 +961,8 @@ I BeeF UI:
 - ✅ Platform
 - ✅ Browser Type & Version
 - ✅ User Agent String
--  Geolokasjon
--  Eier, etc..
+- ✅ Geolokasjon
+- ✅ Eier, etc..
 
 ![alt text](img/geoloc.png)
 
