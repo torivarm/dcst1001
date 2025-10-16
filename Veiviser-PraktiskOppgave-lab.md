@@ -437,7 +437,7 @@ Steg for steg:
 4. ...
 
 ## 4. Sikkerhetsperspektiv
-**Bruk internettet som oppslagsverk**
+**Bruk internettet som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake**
 
 ### 4.1 Angriper-perspektiv
 Hva kan en angriper gjøre med en hooked browser?
@@ -815,17 +815,17 @@ På **Kali Linux**, åpne en **ny inkognito/private** Firefox-tab:
 
 
 ## 3. Hva er HttpOnly cookies?
-(bruk internett som oppslagsverk)
+(bruk internett som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake)
 
 
 ## 4. Hvorfor kunne ikke HttpOnly cookie stjeles?
-(bruk internett som oppslagsverk)
+(bruk internett som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake)
 
 
 ## 5. Sikkerhetstiltak
 
 ### Hvordan kan en utvikler beskytte cookies?
-(bruk internett som oppslagsverk)
+(bruk internett som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake)
 
 1. HttpOnly flag: ...
 2. Secure flag: ...
@@ -833,14 +833,14 @@ På **Kali Linux**, åpne en **ny inkognito/private** Firefox-tab:
 4. ...
 
 ### Hvordan kan en bruker beskytte seg?
-(bruk internett som oppslagsverk)
+(bruk internett som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake)
 
 1. ...
 2. ...
 3. ...
 
 ## 6. Real-world scenario
-(bruk internett som oppslagsverk)
+(bruk internett som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake)
 Finn et scenario hvor cookie-theft har blitt bruket i et angrep:
 
 
@@ -988,13 +988,14 @@ Se i listen og forsøk å finne ut om det er installert programvare, som for eks
 - VLC
 - etc.
 
-Noter hvilken software som er installert.
+Noter hvilken software som er installert. 
+**For så sjekke om BeeF faktisk finner noen programmer, kan en forsøke å installere et par enkle programmer som VLC og Adobe Reader.**
 
 ---
 
-## Steg 4: Samle nettverk-informasjon
+## Steg 3: Samle nettverk-informasjon
 
-### 4.1 Get Internal IP
+### 3.1 Get Internal IP
 
 **Commands** → **Network** → **Get Internal IP**
 
@@ -1002,30 +1003,14 @@ Dette bruker WebRTC for å finne:
 - Intern IP-adresse (192.168.111.XXX)
 - Mulige andre nettverksinterfaces
 
-> 📸 **Screenshot 8:** Internal IP resultater
-
-### 4.2 Detect NAT (valgfritt)
-
-**Commands** → **Network** → **Detect NAT**
-
-Sjekker om maskinen er bak NAT/firewall.
-
-### 4.3 DNS Enumeration
-
-**Commands** → **Network** → **DNS Tunnel**
-
-Prøv å gjøre DNS lookups for å finne:
-- Interne domenenavn
-- Nettverksstruktur
-
 ---
 
-## Steg 5: Sosiale medier
+## Steg 4: Sosiale medier
 
-### 5.1 Detect Social Networks
+### 4.1 Detect Social Networks
 
 **Commands** → **Social Engineering** → **Detect Social Networks**
-
+![alt text](img/SoMe.png)
 Dette sjekker om brukeren er innlogget på:
 - Facebook
 - Twitter/X
@@ -1034,83 +1019,16 @@ Dette sjekker om brukeren er innlogget på:
 - TikTok
 - Reddit
 - etc.
-
-**Hvordan fungerer det?**
-BeeF prøver å laste ressurser fra disse nettstedene. Hvis brukeren er innlogget, vil ressursene laste suksessfullt.
-
-> 📸 **Screenshot 9:** Social Networks resultater
-
-### 5.2 Get Facebook Name (hvis innlogget)
-
-Hvis Facebook er detektert som "logged in":
-
-**Commands** → **Social Engineering** → **Get Facebook Name**
-
-Dette kan hente brukerens Facebook-navn!
+Som vi skjønner ut i fra bildet, vil ikke dette gi oss noe treff nå, siden chrome ikke er logget på og heller ingen sosiale medie kontoer opp mot en ikke pålogget chrome.
 
 ---
 
-## Steg 6: Test browser-kapabiliteter
+## Steg 5: Samle alt i en profil
 
-### 6.1 Detect Webcam
+### 5.1 Fyll ut reconnaissance-rapporten
 
-**Commands** → **Browser** → **Webcam Permission**
-
-**MERK:** Dette vil be om tillatelse i Windows nettleseren!
-
-Se om brukeren tillater webcam-tilgang (trykk **Tillat** på Windows for å teste).
-
-### 6.2 Detect Microphone
-
-Samme som webcam, men for mikrofon.
-
-### 6.3 Get Geolocation
-
-**Commands** → **Browser** → **Get Geolocation**
-
-Be om tillatelse til lokasjon.
-
-Hvis tillatt, får du:
-- Latitude
-- Longitude
-- Accuracy
-- Altitude (hvis tilgjengelig)
-
-> 📸 **Screenshot 10:** Geolocation resultater
-
-### 6.4 Detect Google Maps
-
-Sjekk om browser har tilgang til Google Maps API.
-
----
-
-## Steg 7: Sikkerhetsstatus
-
-### 7.1 Detect CORS
-
-**Commands** → **Network** → **CORS**
-
-Test om browser enforcer CORS (Cross-Origin Resource Sharing).
-
-### 7.2 Detect XSS Auditor
-
-Noen nettlesere har innebygd XSS-beskyttelse. Test om den er aktiv.
-
-### 7.3 Detect Do Not Track
-
-Sjekk om "Do Not Track" er aktivert i nettleseren:
-
-```javascript
-navigator.doNotTrack
-```
-
----
-
-## Steg 8: Samle alt i en profil
-
-### 8.1 Fyll ut reconnaissance-rapporten
-
-Basert på all informasjon samlet, fyll ut rapporten:
+Basert på all informasjon samlet, fyll ut rapporten, noe tilsvarende som dette:
+**MERK! Det er ikke sikkert en får treff på alt sammen**
 
 ```
 ==============================================
@@ -1180,176 +1098,20 @@ Content Security Policy: Not detected
 
 ---
 
-## Steg 9: Visualiser dataen
-
-### 9.1 Lag et "Target Profile" dokument
-
-På Kali, lag en ny HTML-side som visualiserer funnene:
-
-```bash
-cd ~/beef-lab
-nano target-profile.html
-```
-
-Lim inn:
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Target Profile: Windows 11 VM</title>
-    <style>
-        body {
-            font-family: 'Courier New', monospace;
-            background: #0a0a0a;
-            color: #00ff00;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: #ff0000;
-            text-align: center;
-            border: 2px solid #ff0000;
-            padding: 10px;
-        }
-        .section {
-            border: 1px solid #00ff00;
-            padding: 15px;
-            margin: 20px 0;
-            background: #1a1a1a;
-        }
-        .section h2 {
-            color: #00ffff;
-            margin-top: 0;
-        }
-        .vuln {
-            color: #ff9900;
-            font-weight: bold;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        td {
-            padding: 8px;
-            border-bottom: 1px solid #333;
-        }
-        td:first-child {
-            width: 30%;
-            color: #00ffff;
-        }
-        .risk-high { color: #ff0000; }
-        .risk-medium { color: #ff9900; }
-        .risk-low { color: #ffff00; }
-    </style>
-</head>
-<body>
-    <h1>🎯 TARGET RECONNAISSANCE PROFILE 🎯</h1>
-    
-    <div class="section">
-        <h2>📋 SYSTEM OVERVIEW</h2>
-        <table>
-            <tr>
-                <td>Operating System:</td>
-                <td>Windows 11 Pro (Build 22621)</td>
-            </tr>
-            <tr>
-                <td>Browser:</td>
-                <td>Microsoft Edge 120.0.6099.199 (Chromium)</td>
-            </tr>
-            <tr>
-                <td>Internal IP:</td>
-                <td>192.168.111.103</td>
-            </tr>
-            <tr>
-                <td>Location:</td>
-                <td>Trondheim, Norway (NTNU Network)</td>
-            </tr>
-        </table>
-    </div>
-    
-    <div class="section">
-        <h2>🔓 VULNERABILITIES IDENTIFIED</h2>
-        <ul>
-            <li class="risk-high vuln">XSS Vulnerable - BeeF hook successful</li>
-            <li class="risk-high vuln">Cookies not marked HttpOnly</li>
-            <li class="risk-medium vuln">WebRTC leaking internal IP</li>
-            <li class="risk-medium vuln">No Content Security Policy detected</li>
-            <li class="risk-low vuln">Do Not Track header not set</li>
-        </ul>
-    </div>
-    
-    <div class="section">
-        <h2>🎯 ATTACK VECTORS</h2>
-        <ol>
-            <li><strong>Session Hijacking:</strong> Steal cookies via BeeF</li>
-            <li><strong>Phishing:</strong> Deploy Pretty Theft module</li>
-            <li><strong>Network Mapping:</strong> Use internal IP for lateral movement</li>
-            <li><strong>Social Engineering:</strong> Craft targeted attacks based on browser/OS</li>
-        </ol>
-    </div>
-    
-    <div class="section">
-        <h2>💡 RECOMMENDATIONS</h2>
-        <ul>
-            <li>Implement Content Security Policy (CSP)</li>
-            <li>Set HttpOnly and Secure flags on all cookies</li>
-            <li>Disable WebRTC or use VPN</li>
-            <li>Install browser extensions (NoScript, uBlock Origin)</li>
-            <li>Regular security updates</li>
-        </ul>
-    </div>
-</body>
-</html>
-```
-
-Åpne i browser: `firefox target-profile.html &`
-
-> 📸 **Screenshot 11:** Target Profile HTML
-
----
-
 ## Leveranse for Oppgave 3
 
-### 📄 Omfattende rapport
-
-**Filnavn:** `Oppgave3_BrowserDetective_[DittNavn].md`
+### 📄 Kort oppsummerende rapport
 
 **Innhold:**
-
-```markdown
-# Oppgave 3: Browser Detective
-
-**Student:** [Ditt navn]
-**Dato:** [Dato]
-
-## 1. Screenshots
-
-### Screenshot 7: System Info
-[Lim inn]
-
-### Screenshot 8: Internal IP
-[Lim inn]
-
-### Screenshot 9: Social Networks
-[Lim inn]
-
-### Screenshot 10: Geolocation
-[Lim inn]
-
-### Screenshot 11: Target Profile HTML
-[Lim inn]
-
-## 2. Komplett Target Profil
 
 [Lim inn hele reconnaissance-rapporten]
 
 ## 3. Informasjonsverdivurdering
 
-### Hvilken informasjon var mest verdifull for en angriper?
+### Hvilken informasjon var verdifull for en angriper?
+(bruk internett som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake)
 
-[Ranger top 5 og forklar hvorfor]
+[Ranger top 5 og forsøk å forklare hvorfor]
 
 1. Internal IP address - fordi...
 2. Browser version - fordi...
