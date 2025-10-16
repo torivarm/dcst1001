@@ -938,11 +938,9 @@ Dato: [DATO]
 7. SIKKERHETSSTATUS
 ------------------------------
 
-
+8. FYLL INN MER ETTERHVERT SOM DERE FINNER MER INFO
 ==============================================
 ```
-
-Lagre (`Ctrl+O`, Enter, `Ctrl+X`).
 
 ---
 
@@ -950,19 +948,21 @@ Lagre (`Ctrl+O`, Enter, `Ctrl+X`).
 
 ### 2.1 Get System Info
 
+**Prøv også å installere Chrome og se om det er noe forskjell på hvilken informasjon en kan henten ut**
+
 I BeeF UI:
 1. Velg hooked browser
-2. **Commands** → **Host** → **Get System Info**
-3. Klikk **Execute**
-4. Gå til **History** → Se resultater
+2. **Commands** → Finn Grønne kommandoer som kan utføres, og forsøke å hente inn så mye informasjon om den som er hooked som mulig.
+3. Klikk **Execute** på de dere ønsker å utføre.
+4. Se på resultater og fyll inn i eget dokument, eller .txt-fil opprettet i Kali.
 
-**Informasjon du får:**
+![alt text](img/SystemInfo.png)
+
+**Finner dere informasjon som for eksemel:**
 - ✅ Operating System
 - ✅ Platform
 - ✅ Browser Type & Version
 - ✅ User Agent String
-
-> 📸 **Screenshot 7:** System Info resultater
 
 **Fyll inn i rapport:**
 ```
