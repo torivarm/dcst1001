@@ -895,7 +895,7 @@ Fra tidligere oppgaver:
 - ✅ BeeF kjører
 - ✅ Windows 11 nettleser er hooked
 
-Hvis ikke, gå til `http://192.168.111.XXX:8080` fra Windows.
+Hvis ikke, gå til `http://192.168.x.x:8080` fra Windows.
 
 ### 1.2 Opprett en rapport-template
 
@@ -1000,7 +1000,7 @@ Noter hvilken software som er installert.
 **Commands** → **Network** → **Get Internal IP**
 
 Dette bruker WebRTC for å finne:
-- Intern IP-adresse (192.168.111.XXX)
+- Intern IP-adresse (192.168.x.x)
 - Mulige andre nettverksinterfaces
 
 ---
@@ -1020,6 +1020,7 @@ Dette sjekker om brukeren er innlogget på:
 - Reddit
 - etc.
 Som vi skjønner ut i fra bildet, vil ikke dette gi oss noe treff nå, siden chrome ikke er logget på og heller ingen sosiale medie kontoer opp mot en ikke pålogget chrome.
+**Frivillig: For den som har lyst til å prøve, logg på med en google konto i chrome, og logg deretter inn på sosiale nettverk i samme nettleser**
 
 ---
 
@@ -1125,7 +1126,7 @@ Content Security Policy: Not detected
 
 ### Hvor mye kan en nettside vite om deg?
 
-[Diskuter basert på dine funn]
+[Diskuter basert på oppgavens funn]
 
 ### Er dette akseptabelt?
 
@@ -1134,38 +1135,13 @@ Content Security Policy: Not detected
 ## 5. Real-world implikasjoner
 
 ### Scenario 1: Målrettet phishing
+(bruk internett som oppslagsverk - Bruk gjerne en AI og still spørsmål frem og tilbake)
 
 Basert på informasjonen samlet, beskriv hvordan en angriper kunne lage et svært målrettet phishing-angrep:
 
 [Ditt scenario]
 
-### Scenario 2: Corporate espionage
-
-Hvis dette var en ansatt i et firma, hvordan kunne informasjonen brukes?
-
-[Ditt scenario]
-
-## 6. Defensive tiltak
-
-### For brukeren:
-
-1. ...
-2. ...
-3. ...
-
-### For utviklere:
-
-1. ...
-2. ...
-3. ...
-
-### For nettverksadministratorer:
-
-1. ...
-2. ...
-3. ...
-
-## 7. Etisk refleksjon
+## 6. Etisk refleksjon
 
 ### Når er reconnaissance lovlig?
 
@@ -1179,18 +1155,8 @@ Hvis dette var en ansatt i et firma, hvordan kunne informasjonen brukes?
 
 [Dine tanker]
 
-## 8. Sammenligning med andre verktøy
 
-Sammenlign BeeF reconnaissance med:
-- Nmap
-- Shodan
-- theHarvester
-
-Hva er forskjellene?
-
-[Din analyse]
-
-## 9. Konklusjon
+## 8. Konklusjon
 
 Hva har du lært om:
 - Browser fingerprinting?
@@ -1204,15 +1170,6 @@ Hva har du lært om:
 
 ## ❓ Feilsøking Oppgave 3
 
-### Problem: Kan ikke finne Internal IP
-
-**Løsning:**
-WebRTC må være aktivert. Sjekk:
-```javascript
-// I browser console (F12)
-navigator.mediaDevices.enumerateDevices()
-```
-
 ### Problem: Social Networks viser alle som "Unknown"
 
 **Løsning:**
@@ -1225,117 +1182,10 @@ Brukeren må tillate location access. Når BeeF ber om tilgang, klikk "Tillat" i
 
 ---
 
-# Innlevering
-
-## 📦 Hva skal leveres?
-
-### For alle tre oppgavene, lever:
-
-1. **Markdown-rapporter:**
-   - `Oppgave1_FirstHook_[DittNavn].md`
-   - `Oppgave2_CookieMonster_[DittNavn].md`
-   - `Oppgave3_BrowserDetective_[DittNavn].md`
-
-2. **Screenshots (totalt ~11 bilder):**
-   - Organiser i en mappe: `screenshots/`
-   - Navn bildene tydelig: `oppgave1_screenshot1.png` etc.
-
-3. **HTML-filer du laget:**
-   - `index.html` (Kåres Kaffebar)
-   - `cookies-demo.html` (Login-side)
-   - `target-profile.html` (Target profil)
-
-4. **En samlet README.md:**
-   ```markdown
-   # BeeF Lab - Grunnleggende Oppgaver
-   
-   **Student:** [Ditt navn]
-   **Klasse:** Bachelor Digital infrastruktur og cybersikkerhet 1. semester
-   **Dato:** [Dato]
-   
-   ## Innhold
-   
-   - Oppgave 1: First Hook (se Oppgave1_FirstHook.md)
-   - Oppgave 2: Cookie Monster (se Oppgave2_CookieMonster.md)
-   - Oppgave 3: Browser Detective (se Oppgave3_BrowserDetective.md)
-   
-   ## Refleksjon
-   
-   [Kort oppsummering av hva du lærte totalt]
-   
-   ## Etisk erklæring
-   
-   Jeg bekrefter at:
-   - Alle tester ble utført i et isolert lab-miljø
-   - Ingen angrep ble utført mot systemer jeg ikke eier
-   - Jeg forstår de juridiske og etiske implikasjonene
-   
-   Signatur: [Ditt navn]
-   Dato: [Dato]
-   ```
-
-## 📁 Mappestruktur
-
-```
-beef-lab-innlevering/
-├── README.md
-├── Oppgave1_FirstHook_[DittNavn].md
-├── Oppgave2_CookieMonster_[DittNavn].md
-├── Oppgave3_BrowserDetective_[DittNavn].md
-├── html-files/
-│   ├── index.html
-│   ├── cookies-demo.html
-│   └── target-profile.html
-└── screenshots/
-    ├── oppgave1_screenshot1.png
-    ├── oppgave1_screenshot2.png
-    ├── ...
-    └── oppgave3_screenshot11.png
-```
-
-## 💾 Hvordan levere
-
-**Alternativ 1: ZIP-fil**
-```bash
-cd ~/beef-lab
-zip -r beef-lab-innlevering-[DittNavn].zip *
-```
-
-**Alternativ 2: Git repository**
-```bash
-cd ~/beef-lab
-git init
-git add .
-git commit -m "BeeF lab grunnleggende oppgaver"
-git remote add origin [DIN-REPO-URL]
-git push
-```
-
----
-
-## 🎓 Vurderingskriterier
-
-| Kriterium | Vekt | Beskrivelse |
-|-----------|------|-------------|
-| **Teknisk gjennomføring** | 40% | Fullførte alle steg korrekt |
-| **Dokumentasjon** | 25% | Grundige rapporter med screenshots |
-| **Forståelse** | 20% | Forklarer konsepter med egne ord |
-| **Etisk bevissthet** | 10% | Viser forståelse for etiske aspekter |
-| **Presentasjon** | 5% | Ryddig og profesjonell innlevering |
-
----
-
-## ✅ Sjekkliste før innlevering
+## ✅ Sjekkliste før Visning på labb
 
 - [ ] Alle tre rapporter er komplette
 - [ ] Alle screenshots er inkludert og tydelige
-- [ ] HTML-filer er vedlagt
-- [ ] README.md er ferdig
-- [ ] Etisk erklæring er signert
-- [ ] Mappestruktur er korrekt
-- [ ] Alle filer er navngitt riktig
-- [ ] Ingen personlig/sensitiv informasjon er inkludert
-- [ ] Jeg har lest gjennom alt én gang til
 
 ---
 
@@ -1347,10 +1197,6 @@ Du har nå fullført de grunnleggende BeeF-oppgavene og har:
 - ✅ Utført browser reconnaissance
 - ✅ Fått innsikt i web security
 
-**Neste steg:** Gå videre til mellomvare eller avanserte oppgaver! 🚀
-
 ---
-
-**Lykke til!** 🔒
 
 *NTNU - Digital infrastruktur og cybersikkerhet*
