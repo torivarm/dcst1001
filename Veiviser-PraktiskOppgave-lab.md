@@ -956,8 +956,6 @@ I BeeF UI:
 3. Klikk **Execute** på de dere ønsker å utføre.
 4. Se på resultater og fyll inn i eget dokument, eller .txt-fil opprettet i Kali.
 
-![alt text](img/SystemInfo.png)
-
 **Finner dere informasjon som for eksemel:**
 - ✅ Operating System
 - ✅ Platform
