@@ -145,7 +145,3 @@ Get-Process |
 
 Dette kommandosettet grupperer alle kjørende prosesser etter selskapet som laget dem, sorterer gruppene etter antall prosesser, og viser de topp 10 selskapene.
 
-## Konklusjon
-
-Disse avanserte teknikkene for å finne og utforske kommandoer, bruke Get-Member, og arbeide med Select-Object og Expand-Property gir deg kraftige verktøy for å manipulere og analysere data i PowerShell. Ved å mestre disse konseptene kan du skrive mer effektive og fleksible skript for systemadministrasjon og dataanalyse.
-
