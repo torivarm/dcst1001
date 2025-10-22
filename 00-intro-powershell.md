@@ -199,7 +199,3 @@ try {
 3. **Bruk pipelining**: Utnytt PowerShell's pipelining-funksjonalitet for mer effektiv kode.
 4. **Lær aliaser, men bruk fulle cmdlet-navn i skript**: Aliaser er nyttige i interaktiv bruk, men fulle cmdlet-navn gjør skript mer lesbare.
 5. **Bruk Get-Help**: Ikke vær redd for å bruke Get-Help for å lære mer om cmdlets og deres parametere.
-
-## Konklusjon
-
-PowerShell er et kraftig verktøy som kan drastisk forbedre din evne til å administrere Windows-systemer og automatisere oppgaver. Med sin objektorienterte tilnærming og konsistente syntaks, tilbyr PowerShell en robust plattform for både nybegynnere og erfarne administratorer. Ved å mestre grunnleggende cmdlets og konsepter som presentert her, vil du være godt på vei til å bli en effektiv PowerShell-bruker.
