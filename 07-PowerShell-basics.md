@@ -155,6 +155,9 @@ Get-Command
 # Finn alle kommandoer relatert til tjenester
 Get-Command -Noun Service
 
+# Finne alle kommandoer hvor verbet er "Add"
+Get-Verb -verb "Add" | Get-Command
+
 # Finn dokumentasjon og eksempler
 Get-Help Get-Process -Examples
 
