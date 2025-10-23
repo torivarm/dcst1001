@@ -77,7 +77,7 @@ PowerShell forstår ofte kommandoene fra CMD og Bash (som `dir` og `ls`), men de
    ```
    $PSVersionTable.PSVersion
    ```
-2. **HVIS** den sier 5.1, kjør guiden for installasjon av chocolate og deretter PowerShell Core (PowerShell 7) for Windows 11 på virtuell maskin. MERK! En kan også kjøre det på egen maskin om ønskelig, men MERK at det er ikke alt som er likt for PowerShell på Windows og MacOS.
+2. **HVIS** den sier 5.1, gå igjennom guiden for installasjon av chocolate og deretter PowerShell Core (PowerShell 7) for Windows 11 på virtuell maskin. MERK! En kan også kjøre det på egen maskin om ønskelig, men MERK at det er ikke alt som er likt for PowerShell på Windows og MacOS. [Install Choco - PowerShell Core](https://studntnu-my.sharepoint.com/:u:/g/personal/melling_ntnu_no/EUFoqx0uYVtBkn-Kb4SD360BZzK4rdHhXcwPMoXUoSPgIQ)
 3. Finn systemets dato og klokkeslett.
 4. Vis alle tjenester som har status “Running”. (se eksempel under på Ekstra utfordring)
 5. Vis de fem første prosessene i systemet.
