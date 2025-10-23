@@ -404,6 +404,155 @@ Get-ChildItem "C:\Users\<brukernavn>\Desktop"
 
 Ved å kombinere disse enkle kommandoene kan du navigere raskt og effektivt i PowerShell, akkurat som i et grafisk filsystem – men med mye mer kontroll.
 
+### 📄 Arbeid med filer i PowerShell
+
+Når du har lært å bevege deg mellom mapper, er neste steg å lære hvordan du håndterer filer – altså **oppretter, flytter, kopierer, sletter og viser** innhold.  
+PowerShell gjør dette enkelt med et sett kommandoer (cmdlets) som følger et tydelig mønster:  
+👉 **Verb–Substantiv**, for eksempel `New-Item`, `Copy-Item`, `Remove-Item`.
+
+---
+
+#### 📁 Opprette filer og mapper
+
+Du kan bruke `New-Item` for å opprette både filer og mapper.
+
+```powershell
+# Opprett en ny mappe på skrivebordet
+New-Item -Path "$HOME\Desktop\TestMappe" -ItemType Directory
+
+# Opprett en ny fil inne i mappen
+New-Item -Path "$HOME\Desktop\TestMappe\info.txt" -ItemType File
+````
+
+💡 **Tips:** Du kan bruke `mkdir` som en kortversjon for `New-Item -ItemType Directory`.
+
+---
+
+#### ✏️ Skrive og lese innhold i filer
+
+```powershell
+# Skriv tekst til en fil (overskriver alt som er der fra før)
+Set-Content -Path "$HOME\Desktop\TestMappe\info.txt" -Value "Hei NTNU!"
+
+# Legg til mer tekst på slutten av filen
+Add-Content -Path "$HOME\Desktop\TestMappe\info.txt" -Value "Dette er en ny linje."
+
+# Les innholdet i filen
+Get-Content -Path "$HOME\Desktop\TestMappe\info.txt"
+```
+
+💡 `Set-Content` **erstatter** alt innhold, mens `Add-Content` **legger til** uten å slette eksisterende tekst.
+
+---
+
+#### 🔄 Kopiere og flytte filer
+
+Bruk `Copy-Item` og `Move-Item` for å duplisere eller flytte filer.
+
+```powershell
+# Kopier filen til en ny plassering
+Copy-Item -Path "$HOME\Desktop\TestMappe\info.txt" -Destination "$HOME\Desktop\info_kopi.txt"
+
+# Flytt filen (eller gi nytt navn)
+Move-Item -Path "$HOME\Desktop\info_kopi.txt" -Destination "$HOME\Desktop\info_omdøpt.txt"
+```
+
+💡 Du kan bruke **relative stier** hvis du står i samme mappe:
+
+```powershell
+Copy-Item .\info.txt .\backup_info.txt
+```
+
+---
+
+#### ❌ Slette filer og mapper
+
+Bruk `Remove-Item` for å slette filer eller mapper.
+
+```powershell
+# Slett én fil
+Remove-Item "$HOME\Desktop\TestMappe\info.txt"
+
+# Slett hele mappen og alt inni
+Remove-Item "$HOME\Desktop\TestMappe" -Recurse -Force
+```
+
+⚠️ Vær forsiktig med `-Recurse -Force` — det fjerner **alt** i mappen uten bekreftelse.
+
+---
+
+#### 🕵️‍♀️ Kontrollere om filer finnes
+
+Før du prøver å bruke eller slette en fil, kan du sjekke om den finnes med `Test-Path`.
+
+```powershell
+# Sjekk om en fil finnes
+Test-Path "$HOME\Desktop\TestMappe\info.txt"
+
+# Sjekk om en mappe finnes
+Test-Path "$HOME\Desktop\TestMappe"
+```
+
+Hvis filen finnes, returnerer PowerShell `True`. Hvis ikke, returnerer den `False`.
+
+💡 Dette er nyttig når du bygger skript som skal kjøre automatisk – du kan kombinere `Test-Path` med `if`-setninger:
+
+```powershell
+if (Test-Path "$HOME\Desktop\logg.txt") {
+    Write-Host "Filen finnes!"
+} else {
+    Write-Host "Filen finnes ikke, oppretter nå..."
+    New-Item "$HOME\Desktop\logg.txt" -ItemType File
+}
+```
+
+---
+
+#### 🧠 Prøv selv
+
+1. Opprett en mappe på skrivebordet som heter `PS_Øving`.
+2. Lag en tekstfil inni mappen med navnet `minfil.txt`.
+3. Skriv inn tekst i filen med `Set-Content`.
+4. Les innholdet i filen med `Get-Content`.
+5. Kopier filen til en undermappe og gi den nytt navn.
+6. Test om filen finnes, og slett den hvis den gjør det.
+
+---
+
+#### 🚀 Ekstra utfordring
+
+Lag et lite script som:
+
+1. Oppretter en mappe `BackupDemo` på skrivebordet
+2. Lager en ny tekstfil med dagens dato i navnet
+3. Kopierer filen til en undermappe `Arkiv`
+4. Sletter filen fra hovedmappen etter kopiering
+
+**Hint:**
+
+```powershell
+$root = "$HOME\Desktop\BackupDemo"
+New-Item -Path $root -ItemType Directory -Force
+New-Item -Path "$root\Arkiv" -ItemType Directory -Force
+
+$file = "log_$(Get-Date -Format 'yyyy-MM-dd').txt"
+Set-Content -Path "$root\$file" -Value "Backup kjørt kl $(Get-Date)"
+Copy-Item -Path "$root\$file" -Destination "$root\Arkiv\$file"
+Remove-Item "$root\$file"
+```
+
+---
+
+💬 **Oppsummering:**
+
+* `New-Item` → Opprett filer og mapper
+* `Set-Content` / `Add-Content` → Skriv til filer
+* `Copy-Item` / `Move-Item` → Kopier eller flytt
+* `Remove-Item` → Slett
+* `Test-Path` → Sjekk om noe finnes
+
+Disse kommandoene gir deg full kontroll over filsystemet – og når du kombinerer dem med løkker og betingelser (fra tema 5), kan du automatisere nesten alt.
+
 ### 📁 Navigering i filsystemet
 
 ```powershell
