@@ -285,6 +285,124 @@ Etter denne delen skal du kunne:
 * Lese og skrive innhold i filer
 
 ---
+### 📂 Navigering mellom mapper i PowerShell
+
+Når du jobber i PowerShell, er det viktig å kunne bevege seg mellom mapper (kataloger) på en enkel måte.  
+PowerShell bruker mange av de samme kommandoene som gamle kommandolinjeverktøy (som CMD eller Bash), men i tillegg kan du bruke moderne cmdlets som `Get-ChildItem`.
+
+---
+
+#### 🧭 Grunnleggende navigasjonskommandoer
+
+| Kommando | Forklaring | Eksempel |
+|-----------|-------------|-----------|
+| `cd <mappe>` | Gå **inn i** en mappe | `cd Dokumenter` |
+| `cd ..` | Gå **ett nivå opp** (ut av mappen) | `cd ..` |
+| `cd \` | Gå til **rotmappen** på disken | `cd \` |
+| `dir` eller `ls` | **List opp** filer og mapper i gjeldende mappe | `dir` |
+| `pwd` eller `Get-Location` | Vis **hvor du er** (gjeldende mappe) | `Get-Location` |
+
+---
+
+#### 📘 Eksempel: Navigere mellom mapper
+
+La oss si at du befinner deg i mappen `C:\Users\<brukernavn>\Documents`, og du ønsker å gå inn i en mappe som heter `Prosjekt`:
+
+```powershell
+cd Prosjekt
+````
+
+Nå står du i `C:\Users\<brukernavn>\Documents\Prosjekt`.
+
+Hvis du ønsker å gå **tilbake ett nivå**, skriver du:
+
+```powershell
+cd ..
+```
+
+Nå er du tilbake i `Documents`.
+
+Hvis du vil gå **direkte til en bestemt mappe**, kan du skrive hele stien:
+
+```powershell
+cd "C:\Users\<brukernavn>\Desktop"
+```
+
+💡 Du kan bruke **TAB-tasten** for å autofullføre mappenavn mens du skriver — det sparer mye tid og reduserer skrivefeil.
+
+---
+
+#### 🗂️ Vise filer og mapper
+
+For å se hva som finnes i mappen du står i:
+
+```powershell
+dir
+```
+
+Dette viser en oversikt over filer og undermapper.
+Du kan også bruke aliaset `ls` (fra Linux) eller den fulle cmdleten `Get-ChildItem`:
+
+```powershell
+Get-ChildItem
+```
+
+For å se innholdet i en **spesifikk mappe**, selv om du ikke står der:
+
+```powershell
+Get-ChildItem "C:\Users\<brukernavn>\Desktop"
+```
+
+---
+
+#### 💡 Tips for effektiv navigering
+
+* Bruk `Up`-pilen for å hente tidligere kommandoer.
+* Bruk **TAB** for automatisk utfylling av mappenavn.
+* Skriv `cls` for å **rydde terminalvinduet**.
+* Skriv `exit` for å lukke PowerShell.
+
+---
+
+#### 🧠 Prøv selv
+
+1. Åpne PowerShell og gå til skrivebordet ditt:
+
+   ```powershell
+   cd "$HOME\Desktop"
+   ```
+2. Opprett en ny mappe:
+
+   ```powershell
+   mkdir TestMappe
+   ```
+3. Gå inn i mappen:
+
+   ```powershell
+   cd TestMappe
+   ```
+4. Opprett en ny fil og sjekk at den finnes:
+
+   ```powershell
+   New-Item info.txt -ItemType File
+   dir
+   ```
+5. Gå ut av mappen igjen:
+
+   ```powershell
+   cd ..
+   ```
+
+---
+
+💬 **Oppsummering:**
+
+* `cd` brukes til å bytte mappe
+* `cd ..` går ett nivå opp
+* `dir` (eller `ls`) viser innhold
+* `Get-Location` viser hvor du er
+
+Ved å kombinere disse enkle kommandoene kan du navigere raskt og effektivt i PowerShell, akkurat som i et grafisk filsystem – men med mye mer kontroll.
 
 ### 📁 Navigering i filsystemet
 
