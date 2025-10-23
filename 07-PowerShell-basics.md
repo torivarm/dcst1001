@@ -72,14 +72,15 @@ PowerShell forstår ofte kommandoene fra CMD og Bash (som `dir` og `ls`), men de
 
 ### 🧠 Prøv selv – Oppgaver
 
-1. Finn PowerShell-versjonen din:
+1. Finn PowerShell-versjonen din: 
 
    ```
    $PSVersionTable.PSVersion
    ```
-2. Finn systemets dato og klokkeslett.
-3. Vis alle tjenester som har status “Running”.
-4. Vis de fem første prosessene i systemet.
+2. **HVIS** den sier 5.1, kjør guiden for installasjon av chocolate og deretter PowerShell Core (PowerShell 7) for Windows 11 på virtuell maskin. MERK! En kan også kjøre det på egen maskin om ønskelig, men MERK at det er ikke alt som er likt for PowerShell på Windows og MacOS.
+3. Finn systemets dato og klokkeslett.
+4. Vis alle tjenester som har status “Running”. (se eksempel under på Ekstra utfordring)
+5. Vis de fem første prosessene i systemet.
 
 
 ### 🚀 Ekstra utfordring
