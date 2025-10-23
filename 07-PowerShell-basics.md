@@ -1,4 +1,4 @@
-# 💻 PowerShell Grunnkurs – Bachelor i digital infrastruktur og cybersikkerhet (NTNU)
+# 💻 PowerShell Basics – Bachelor i digital infrastruktur og cybersikkerhet (NTNU)
 
 > 🧠 Denne guiden er laget for bruk på **virtuell Windows 11** i **OpenStack-miljøet** ved NTNU.  
 > Alle kommandoer og øvelser er testet i **PowerShell 7 (Core)**.  
