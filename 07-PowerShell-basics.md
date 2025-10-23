@@ -79,9 +79,6 @@ PowerShell forstår ofte kommandoene fra CMD og Bash (som `dir` og `ls`), men de
    ```
 2. **HVIS** den sier 5.1, gå igjennom guiden for installasjon av chocolate og deretter PowerShell Core (PowerShell 7) for Windows 11 på virtuell maskin. MERK! En kan også kjøre det på egen maskin om ønskelig, men MERK at det er ikke alt som er likt for PowerShell på Windows og MacOS. [Install Choco - PowerShell Core](https://studntnu-my.sharepoint.com/:u:/g/personal/melling_ntnu_no/EUFoqx0uYVtBkn-Kb4SD360BZzK4rdHhXcwPMoXUoSPgIQ) - Start deretter på nytt i PowerShell 7.
 3. Finn systemets dato og klokkeslett.
-4. Vis alle tjenester som har status “Running”. (se eksempel under på Ekstra utfordring)
-5. Vis de fem første prosessene i systemet.
-
 
 ### 🚀 Ekstra utfordring
 
@@ -406,13 +403,6 @@ Set-Content -Path "$path\log_$date.txt" -Value "Script kjørt OK"
 
 ---
 
-© NTNU – Emne: Digital infrastruktur og cybersikkerhet
+© NTNU – Emne: DCST1001 - IT Infrastruktur, grunnleggende ferdigheter. Digital infrastruktur og cybersikkerhet
 Utarbeidet som del av undervisningsopplegg i PowerShell og systemadministrasjon
 
-```
-
----
-
-Vil du at jeg også skal lage en **egen versjon med interaktive quiz/testspørsmål** (for eksempel i flervalgsformat eller “fyll inn kommando”-oppgaver som kan legges i Blackboard)?  
-Det kan være nyttig for studentene å få direkte tilbakemelding etter hvert tema.
-```
