@@ -134,8 +134,8 @@ Noen vanlige verb:
 # Hent prosesser
 Get-Process
 
-# Stopp en prosess - Hvis den ikke finner en prosess med navn notepad, skriv inn følgende i powershell: 
-```notepad.exe```
+# Stopp en prosess - Hvis den ikke finner en prosess med navn notepad, kan en starte notepad i PowerShell med å skrive notepad.exe: 
+
 Stop-Process -Name notepad
 
 # Opprett en ny mappe
