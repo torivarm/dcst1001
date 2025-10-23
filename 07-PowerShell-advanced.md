@@ -364,16 +364,5 @@ Du kan nå:
 
 ---
 
-© NTNU – Emne: Digital infrastruktur og cybersikkerhet
-Utviklet som del av undervisningsopplegg i PowerShell og systemadministrasjon
-
-```
-
----
-
-💡 **Oppsummering for deg som underviser:**  
-Denne Markdown-filen kan deles direkte med studentene i læringsplattformen (eller eksporteres til PDF).  
-Hver del gir tydelig progresjon fra grunnleggende til praktisk anvendelse, og inneholder mange konkrete kodeeksempler, øvingsoppgaver og små "mini-prosjekter" som viser PowerShells rolle i ekte IT-drift og sikkerhetsarbeid.
-
-Vil du at jeg nå lager en **egen praktisk test (quiz + miniprosjekt)** som dekker **tema 5–8** — slik at du kan bruke den som vurderingsøvelse eller lab-innlevering?
-```
+© NTNU – Emne: DCST1001 - IT Infrastruktur, grunnleggende ferdigheter. Digital infrastruktur og cybersikkerhet
+Utarbeidet som del av undervisningsopplegg i PowerShell og systemadministrasjon
