@@ -358,7 +358,7 @@ while ($true) {
 
 Du kan nå:
 
-* Bygge videre på dette for å administrere **Azure**, **Active Directory** eller **Microsoft 365**.
+* Bygge videre på dette for å administrere **Azure**, **Active Directory** eller **Microsoft 365**. (Som vi skal gjøre i neste semester i DCST1005 - Infrastruktur, sikre grunntjenester)
 * Utforske **PowerShell Remoting** for å kjøre kommandoer på flere maskiner samtidig.
 * Bruke PowerShell i **DevOps / CI-CD**-sammenheng.
 
