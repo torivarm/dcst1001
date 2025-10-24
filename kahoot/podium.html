@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kahoot Resultater - Podium & Topp 10</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 50px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Podium Section */
+        .podium-section {
+            margin-bottom: 80px;
+        }
+
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
+            margin-top: 50px;
+            perspective: 1000px;
+        }
+
+        .podium-place {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: slideUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .podium-place:nth-child(1) { animation-delay: 0.3s; }
+        .podium-place:nth-child(2) { animation-delay: 0.1s; }
+        .podium-place:nth-child(3) { animation-delay: 0.5s; }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .winner-info {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            transform: rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .winner-info:hover {
+            transform: rotateX(0deg) scale(1.05);
+        }
+
+        .trophy {
+            font-size: 3em;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .winner-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .winner-points {
+            font-size: 1.8em;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .podium-bar {
+            width: 180px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            font-weight: bold;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .podium-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            to { left: 100%; }
+        }
+
+        .second-place .podium-bar {
+            height: 250px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+        }
+
+        .first-place .podium-bar {
+            height: 300px;
+            background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+            color: #333;
+        }
+
+        .third-place .podium-bar {
+            height: 200px;
+            background: linear-gradient(135deg, #cd7f32 0%, #e4a853 100%);
+            color: white;
+        }
+
+        /* Top 10 List */
+        .top-list-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .top-list-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .top-list {
+            list-style: none;
+        }
+
+        .top-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 0.5s ease-out forwards;
+            border-left: 5px solid transparent;
+        }
+
+        .top-list-item:nth-child(1) { animation-delay: 0.1s; border-left-color: #ffd700; }
+        .top-list-item:nth-child(2) { animation-delay: 0.2s; border-left-color: #c0c0c0; }
+        .top-list-item:nth-child(3) { animation-delay: 0.3s; border-left-color: #cd7f32; }
+        .top-list-item:nth-child(4) { animation-delay: 0.4s; }
+        .top-list-item:nth-child(5) { animation-delay: 0.5s; }
+        .top-list-item:nth-child(6) { animation-delay: 0.6s; }
+        .top-list-item:nth-child(7) { animation-delay: 0.7s; }
+        .top-list-item:nth-child(8) { animation-delay: 0.8s; }
+        .top-list-item:nth-child(9) { animation-delay: 0.9s; }
+        .top-list-item:nth-child(10) { animation-delay: 1s; }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .top-list-item:hover {
+            transform: scale(1.02);
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .rank-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .rank-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .top-list-item:nth-child(1) .rank-number { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #333; }
+        .top-list-item:nth-child(2) .rank-number { background: linear-gradient(135deg, #c0c0c0, #e0e0e0); color: #333; }
+        .top-list-item:nth-child(3) .rank-number { background: linear-gradient(135deg, #cd7f32, #e4a853); }
+
+        .player-name {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .player-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .podium { gap: 5px; }
+            .podium-bar { width: 100px; font-size: 2.5em; }
+            .winner-info { min-width: 100px; padding: 10px; }
+            .winner-name { font-size: 1em; }
+            .winner-points { font-size: 1.2em; }
+            .trophy { font-size: 2em; }
+            .top-list-item { padding: 15px; }
+            .player-name { font-size: 1.1em; }
+            .player-score { font-size: 1.2em; }
+        }
+
+        /* Fireworks effect */
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: firework 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes firework {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(20) translateY(-100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 KAHOOT MESTERE 2025 🏆</h1>
+        
+        <!-- Podium Section -->
+        <div class="podium-section">
+            <div class="podium">
+                <!-- 2nd Place -->
+                <div class="podium-place second-place">
+                    <div class="winner-info">
+                        <div class="trophy">🥈</div>
+                        <div class="winner-name">Henrik</div>
+                        <div class="winner-points">49 761</div>
+                    </div>
+                    <div class="podium-bar">2</div>
+                </div>
+                
+                <!-- 1st Place -->
+                <div class="podium-place first-place">
+                    <div class="winner-info">
+                        <div class="trophy">🥇</div>
+                        <div class="winner-name">Hel G</div>
+                        <div class="winner-points">52 520</div>
+                    </div>
+                    <div class="podium-bar">1</div>
+                </div>
+                
+                <!-- 3rd Place -->
+                <div class="podium-place third-place">
+                    <div class="winner-info">
+                        <div class="trophy">🥉</div>
+                        <div class="winner-name">albert</div>
+                        <div class="winner-points">47 134</div>
+                    </div>
+                    <div class="podium-bar">3</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top 10 List -->
+        <div class="top-list-section">
+            <h2 class="top-list-title">⭐ TOPP 10 SPILLERE ⭐</h2>
+            <ol class="top-list">
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">1</div>
+                        <div class="player-name">Hel G</div>
+                    </div>
+                    <div class="player-score">52 520</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">2</div>
+                        <div class="player-name">Henrik</div>
+                    </div>
+                    <div class="player-score">49 761</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">3</div>
+                        <div class="player-name">albert</div>
+                    </div>
+                    <div class="player-score">47 134</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">4</div>
+                        <div class="player-name">Martin</div>
+                    </div>
+                    <div class="player-score">47 107</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">5</div>
+                        <div class="player-name">Adrian</div>
+                    </div>
+                    <div class="player-score">45 864</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">6</div>
+                        <div class="player-name">Sofie</div>
+                    </div>
+                    <div class="player-score">45 530</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">7</div>
+                        <div class="player-name">Daniel ER</div>
+                    </div>
+                    <div class="player-score">44 874</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">8</div>
+                        <div class="player-name">Prebz</div>
+                    </div>
+                    <div class="player-score">43 971</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">9</div>
+                        <div class="player-name">Børrud</div>
+                    </div>
+                    <div class="player-score">43 229</div>
+                </li>
+                <li class="top-list-item">
+                    <div class="rank-info">
+                        <div class="rank-number">10</div>
+                        <div class="player-name">Erik</div>
+                    </div>
+                    <div class="player-score">42 577</div>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Create confetti effect
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#ffd700', '#ff69b4', '#00bfff', '#ff6347', '#98fb98'][Math.floor(Math.random() * 5)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 100);
+            }
+        }
+
+        // Create firework effect on click
+        document.addEventListener('click', (e) => {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = e.clientX + 'px';
+            firework.style.top = e.clientY + 'px';
+            firework.style.background = `radial-gradient(circle, ${['#ffd700', '#ff69b4', '#00bfff'][Math.floor(Math.random() * 3)]}, transparent)`;
+            document.body.appendChild(firework);
+            
+            setTimeout(() => firework.remove(), 1000);
+        });
+
+        // Initial confetti
+        setTimeout(createConfetti, 500);
+        
+        // Repeat confetti every 10 seconds
+        setInterval(createConfetti, 10000);
+        
+        // Format numbers with space as thousand separator
+        document.querySelectorAll('.winner-points, .player-score').forEach(el => {
+            el.textContent = el.textContent.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        });
+    </script>
+</body>
+</html>
